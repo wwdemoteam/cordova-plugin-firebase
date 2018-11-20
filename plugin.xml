@@ -1,138 +1,119 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin id="cordova-plugin-firebase" version="0.2.0" 
-	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
-	xmlns:android="http://schemas.android.com/apk/res/android">
-  
-	<name>Firebase Plugin</name>
-	<license>MIT</license>
-	<engines>
-		<engine name="cordova" version=">=3.2.0" />
-	</engines>
+  xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+  xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<js-module name="FirebasePlugin" src="www/firebase.js">
-		<clobbers target="fp" />
-	</js-module>
-	
-	<hook src="scripts/installDependencies.js" type="before_plugin_install" />
-	<hook src="scripts/unzipAndCopyConfigurations.js" type="before_plugin_install" />
-	
-	<preference name="APP_DOMAIN" default="/" />
-	<preference name="APP_PATH" default="/" />
+  <name>Firebase Plugin</name>
+  <license>MIT</license>
 
-	<platform name="android">
+  <engines>
+    <engine name="cordova" version=">=3.2.0" />
+  </engines>
+
+  <js-module name="FirebasePlugin" src="www/firebase.js">
+    <clobbers target="fp" />
+  </js-module>
+
+  <hook src="scripts/installDependencies.js" type="before_plugin_install" />
+  <hook src="scripts/unzipAndCopyConfigurations.js" type="before_plugin_install" />
+
+  <preference name="APP_DOMAIN" default="/" />
+  <preference name="APP_PATH" default="/" />
+
+  <platform name="android">
     <hook type="after_plugin_install" src="scripts/android/after_plugin_install.js" />
-	  <hook type="before_plugin_uninstall" src="scripts/android/before_plugin_uninstall.js" />
+    <hook type="before_plugin_uninstall" src="scripts/android/before_plugin_uninstall.js" />
 
-		<config-file parent="/*" target="res/xml/config.xml">
-			<feature name="FirebasePlugin">
-				<param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
-				<param name="onload" value="true" />
-			</feature>
-		</config-file>
-		<config-file target="AndroidManifest.xml" parent="/*">
-			<uses-permission android:name="android.permission.INTERNET" />
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-			<uses-permission android:name="android.permission.WAKE_LOCK" />
-		</config-file>
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService" />
-		</config-file>
-		<config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
-				<data android:scheme="https" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
-			</intent-filter>
-		</config-file>
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<service android:name="org.apache.cordova.firebase.FirebasePluginMessagingService">
-				<intent-filter>
-					<action android:name="com.google.firebase.MESSAGING_EVENT"/>
-				</intent-filter>
-			</service>
-			<service android:name="org.apache.cordova.firebase.FirebasePluginInstanceIDService">
-				<intent-filter>
-					<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-				</intent-filter>
-			</service>
-			<receiver android:name="org.apache.cordova.firebase.OnNotificationOpenReceiver"></receiver>
-		</config-file>
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="@string/default_notification_channel_id"/>
-		</config-file>
-		<resource-file src="google-services.json" target="./google-services.json" />
-		<resource-file src="src/android/cordova-plugin-firebase-strings.xml" target="res/values/cordova-plugin-firebase-strings.xml" />
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="FirebasePlugin">
+        <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.WAKE_LOCK" />
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService" />
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="http" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
+        <data android:scheme="https" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
+      </intent-filter>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service android:name="org.apache.cordova.firebase.FirebasePluginMessagingService">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+        </intent-filter>
+      </service>
+      <service android:name="org.apache.cordova.firebase.FirebasePluginInstanceIDService">
+        <intent-filter>
+          <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+        </intent-filter>
+      </service>
+      <receiver android:name="org.apache.cordova.firebase.OnNotificationOpenReceiver"></receiver>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="@string/default_notification_channel_id"/>
+    </config-file>
 
-		<source-file src="src/android/FirebasePlugin.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/OnNotificationOpenReceiver.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/FirebasePluginInstanceIDService.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/FirebasePluginMessagingService.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/FirebasePluginMessageReceiver.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/FirebasePluginMessageReceiverManager.java" target-dir="src/org/apache/cordova/firebase" />
-		<source-file src="src/android/colors.xml" target-dir="res/values" />
+    <resource-file src="google-services.json" target="./google-services.json" />
+    <resource-file src="src/android/cordova-plugin-firebase-strings.xml" target="res/values/cordova-plugin-firebase-strings.xml" />
 
-		<framework src="src/android/build.gradle" custom="true" type="gradleReference" />
-		<framework src="com.google.gms:google-services:4.0.1" />
-		<framework src="com.google.firebase:firebase-core:16.0.4" />
-		<framework src="com.google.firebase:firebase-messaging:17.3.4" />
-		<!-- framework src="com.google.firebase:firebase-crash:16.2.1" /> --> 
-		<framework src="com.google.firebase:firebase-config:16.1.0" />
-		<framework src="com.google.firebase:firebase-perf:16.2.0" />
-		<framework src="com.google.firebase:firebase-invites:16.0.4" />
-	</platform>
+    <source-file src="src/android/FirebasePlugin.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/OnNotificationOpenReceiver.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/FirebasePluginInstanceIDService.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/FirebasePluginMessagingService.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/FirebasePluginMessageReceiver.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/FirebasePluginMessageReceiverManager.java" target-dir="src/org/apache/cordova/firebase" />
+    <source-file src="src/android/colors.xml" target-dir="res/values" />
 
-	<platform name="ios">
-  <!--
+    <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+    <framework src="com.google.gms:google-services:4.0.1" />
+    <framework src="com.google.firebase:firebase-core:16.0.4" />
+    <framework src="com.google.firebase:firebase-messaging:17.3.4" />
+    <framework src="com.google.firebase:firebase-config:16.1.0" />
+    <framework src="com.google.firebase:firebase-perf:16.2.0" />
+    <framework src="com.google.firebase:firebase-invites:16.0.4" />
+  </platform>
+
+  <platform name="ios">
     <hook type="after_plugin_install" src="scripts/ios/after_plugin_install.js" />
-	  <hook type="before_plugin_uninstall" src="scripts/ios/before_plugin_uninstall.js" /> -->
+    <hook type="before_plugin_uninstall" src="scripts/ios/before_plugin_uninstall.js" />
 
-		<config-file parent="/*" target="config.xml">
-			<feature name="FirebasePlugin">
-				<param name="ios-package" value="FirebasePlugin" />
-				<param name="onload" value="true" />
-			</feature>
-		</config-file>
-		<config-file parent="aps-environment" target="*/Entitlements-Debug.plist">
-			<string>development</string>
-		</config-file>
-		<config-file parent="aps-environment" target="*/Entitlements-Release.plist">
-			<string>production</string>
-		</config-file>
+    <config-file parent="/*" target="config.xml">
+      <feature name="FirebasePlugin">
+        <param name="ios-package" value="FirebasePlugin" />
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+    <config-file parent="aps-environment" target="*/Entitlements-Debug.plist">
+      <string>development</string>
+    </config-file>
+    <config-file parent="aps-environment" target="*/Entitlements-Release.plist">
+      <string>production</string>
+    </config-file>
 
-		<resource-file src="GoogleService-Info.plist" target="./GoogleService-Info.plist" />
+    <resource-file src="GoogleService-Info.plist" target="./GoogleService-Info.plist" />
 
-		<header-file src="src/ios/AppDelegate+FirebasePlugin.h" />
-		<source-file src="src/ios/AppDelegate+FirebasePlugin.m" />
-		<header-file src="src/ios/FirebasePlugin.h" />
-		<source-file src="src/ios/FirebasePlugin.m" />
-		<header-file src="src/ios/Firebase/Firebase.h" />
+    <header-file src="src/ios/AppDelegate+FirebasePlugin.h" />
+    <source-file src="src/ios/AppDelegate+FirebasePlugin.m" />
+    <header-file src="src/ios/FirebasePlugin.h" />
+    <source-file src="src/ios/FirebasePlugin.m" />
 
-  <!--
-		<framework custom="true" src="src/ios/Crashlytics/Crashlytics.framework" />
-		<framework custom="true" src="src/ios/Crashlytics/Fabric.framework" /> -->
-    <framework custom="true" src="src/ios/Firebase/Crash/FirebaseCrash.framework" />
-
-		<framework custom="true" src="src/ios/Firebase/Analytics/FirebaseAnalytics.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/FirebaseCore.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/FirebaseCoreDiagnostics.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/FirebaseInstanceID.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/FirebaseNanoPB.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/GoogleToolboxForMac.framework" />
-		<framework custom="true" src="src/ios/Firebase/Analytics/nanopb.framework" />
-
-    <framework custom="true" src="src/ios/Firebase/Auth/FirebaseAuth.framework" />
-		<framework custom="true" src="src/ios/Firebase/Auth/GTMSessionFetcher.framework" />
-
-    <framework custom="true" src="src/ios/Firebase/Messaging/Protobuf.framework" />
-		<framework custom="true" src="src/ios/Firebase/Messaging/FirebaseMessaging.framework" />
-
-    <framework custom="true" src="src/ios/Firebase/Performance/FirebasePerformance.framework" />
-		<framework custom="true" src="src/ios/Firebase/Performance/FirebaseISASwizzler.framework" />
-		<framework custom="true" src="src/ios/Firebase/Performance/FirebaseMethodSwizzler.framework" />
-
-		<framework custom="true" src="src/ios/Firebase/RemoteConfig/FirebaseRemoteConfig.framework" />
-		<framework custom="true" src="src/ios/Firebase/RemoteConfig/FirebaseABTesting.framework" />
-	</platform>
+    <framework src="Fabric" type="podspec" spec="~> 1.7.11" />
+    <framework src="Crashlytics" type="podspec" spec="~> 3.10.7" />
+    <framework src="FirebaseAnalytics" type="podspec" spec="~> 4.2" />
+    <framework src="FirebaseMessaging" type="podspec" spec="~> 2.2.0" />
+    <framework src="FirebaseAuth" type="podspec" spec="~> 4.6.1" />
+    <framework src="FirebaseRemoteConfig" type="podspec" spec="~> 2.1.3" />
+    <framework src="FirebasePerformance" type="podspec" spec="~> 1.1.3" />
+  </platform>
 </plugin>
