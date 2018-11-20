@@ -47,22 +47,7 @@
 - (BOOL)application:(UIApplication *)application swizzledDidFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self application:application swizzledDidFinishLaunchingWithOptions:launchOptions];
 
-    // get GoogleService-Info.plist file path
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-    
-    // if file is successfully found, use it
-    if(filePath){
-        NSLog(@"GoogleService-Info.plist found, setup: [FIRApp configureWithOptions]");
-        // create firebase configure options passing .plist as content
-        FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
-        
-        // configure FIRApp with options
-        [FIRApp configureWithOptions:options];
-    }
-    
-    // no .plist found, try default App
-    if (![FIRApp defaultApp] && !filePath) {
-        NSLog(@"GoogleService-Info.plist NOT FOUND, setup: [FIRApp defaultApp]");
+    if(![FIRApp defaultApp]) {
         [FIRApp configure];
     }
 
@@ -76,16 +61,16 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:)
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
-
+    
     self.applicationInBackground = @(YES);
-
+    
     return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self connectToFcm];
     self.applicationInBackground = @(NO);
-    }
+}
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [[FIRMessaging messaging] disconnect];
@@ -117,11 +102,6 @@
     }];
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [FIRMessaging messaging].APNSToken = deviceToken;
-    NSLog(@"deviceToken1 = %@", deviceToken);
-}
-
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSDictionary *mutableUserInfo = [userInfo mutableCopy];
 
@@ -139,8 +119,10 @@
     NSDictionary *mutableUserInfo = [userInfo mutableCopy];
 
     [mutableUserInfo setValue:self.applicationInBackground forKey:@"tap"];
+
     // Print full message.
     NSLog(@"%@", mutableUserInfo);
+
     completionHandler(UIBackgroundFetchResultNewData);
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
 }
@@ -154,10 +136,6 @@
     // This will allow us to handle FCM data-only push messages even if the permission for push
     // notifications is yet missing. This will only work when the app is in the foreground.
     [FirebasePlugin.firebasePlugin sendNotification:remoteMessage.appData];
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  NSLog(@"Unable to register for remote notifications: %@", error);
 }
 
 // [END ios_10_data_message]
@@ -183,7 +161,6 @@
     completionHandler(UNNotificationPresentationOptionAlert);
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
 }
-
 - (void) userNotificationCenter:(UNUserNotificationCenter *)center
  didReceiveNotificationResponse:(UNNotificationResponse *)response
           withCompletionHandler:(void (^)(void))completionHandler

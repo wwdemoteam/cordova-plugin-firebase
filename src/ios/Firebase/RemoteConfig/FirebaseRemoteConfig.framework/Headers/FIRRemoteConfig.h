@@ -84,7 +84,7 @@ NS_SWIFT_NAME(RemoteConfigSettings)
 /// Initializes FIRRemoteConfigSettings, which is used to set properties for custom settings. To
 /// make custom settings take effect, pass the FIRRemoteConfigSettings instance to the
 /// configSettings property of FIRRemoteConfig.
-- (nonnull FIRRemoteConfigSettings *)initWithDeveloperModeEnabled:(BOOL)developerModeEnabled
+- (nullable FIRRemoteConfigSettings *)initWithDeveloperModeEnabled:(BOOL)developerModeEnabled
     NS_DESIGNATED_INITIALIZER;
 @end
 

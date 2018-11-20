@@ -21,7 +21,6 @@
 - (void)sendToken:(NSString*)token;
 - (void)logEvent:(CDVInvokedUrlCommand*)command;
 - (void)logError:(CDVInvokedUrlCommand*)command;
-- (void)setCrashlyticsUserId:(CDVInvokedUrlCommand*)command;
 - (void)setScreenName:(CDVInvokedUrlCommand*)command;
 - (void)setUserId:(CDVInvokedUrlCommand*)command;
 - (void)setUserProperty:(CDVInvokedUrlCommand*)command;
@@ -32,8 +31,6 @@
 - (void)incrementCounter:(CDVInvokedUrlCommand*)command;
 - (void)stopTrace:(CDVInvokedUrlCommand*)command;
 - (void)setAnalyticsCollectionEnabled:(CDVInvokedUrlCommand*)command;
-- (void)setPerformanceCollectionEnabled:(CDVInvokedUrlCommand*)command;
-- (void)clearAllNotifications:(CDVInvokedUrlCommand *)command;
 @property (nonatomic, copy) NSString *notificationCallbackId;
 @property (nonatomic, copy) NSString *tokenRefreshCallbackId;
 @property (nonatomic, retain) NSMutableArray *notificationStack;

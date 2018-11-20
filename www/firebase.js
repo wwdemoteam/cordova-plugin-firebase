@@ -1,169 +1,210 @@
 var exec = require('cordova/exec');
 
-exports.getVerificationID = function (number, success, error) {
-  exec(success, error, "FirebasePlugin", "getVerificationID", [number]);
+var PLUGIN_NAME = 'FirebasePlugin';
+
+exports.getVerificationID = function(number, success, error) {
+    exec(success, error, PLUGIN_NAME, "getVerificationID", [number]);
 };
 
-exports.getInstanceId = function (success, error) {
-  exec(success, error, "FirebasePlugin", "getInstanceId", []);
+
+//
+// Cloud Messaging FCM
+//
+exports.getInstanceId = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "getInstanceId", []);
 };
 
-exports.getId = function (success, error) {
-  exec(success, error, "FirebasePlugin", "getId", []);
+exports.getId = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "getId", []);
 };
 
-exports.getToken = function (success, error) {
-  exec(success, error, "FirebasePlugin", "getToken", []);
+exports.getToken = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "getToken", []);
 };
 
-exports.onNotificationOpen = function (success, error) {
-  exec(success, error, "FirebasePlugin", "onNotificationOpen", []);
+exports.onNotificationOpen = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "onNotificationOpen", []);
 };
 
-exports.onTokenRefresh = function (success, error) {
-  exec(success, error, "FirebasePlugin", "onTokenRefresh", []);
+exports.onTokenRefresh = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "onTokenRefresh", []);
 };
 
-exports.grantPermission = function (success, error) {
-  exec(success, error, "FirebasePlugin", "grantPermission", []);
+exports.grantPermission = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "grantPermission", []);
 };
 
-exports.hasPermission = function (success, error) {
-  exec(success, error, "FirebasePlugin", "hasPermission", []);
+exports.hasPermission = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "hasPermission", []);
 };
 
-exports.setBadgeNumber = function (number, success, error) {
-  exec(success, error, "FirebasePlugin", "setBadgeNumber", [number]);
+exports.setBadgeNumber = function(number, success, error) {
+    exec(success, error, PLUGIN_NAME, "setBadgeNumber", [number]);
 };
 
-exports.getBadgeNumber = function (success, error) {
-  exec(success, error, "FirebasePlugin", "getBadgeNumber", []);
+exports.getBadgeNumber = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "getBadgeNumber", []);
 };
 
-exports.subscribe = function (topic, success, error) {
-  exec(success, error, "FirebasePlugin", "subscribe", [topic]);
+exports.subscribe = function(topic, success, error) {
+    exec(success, error, PLUGIN_NAME, "subscribe", [topic]);
 };
 
-exports.unsubscribe = function (topic, success, error) {
-  exec(success, error, "FirebasePlugin", "unsubscribe", [topic]);
+exports.unsubscribe = function(topic, success, error) {
+    exec(success, error, PLUGIN_NAME, "unsubscribe", [topic]);
 };
 
-exports.unregister = function (success, error) {
-  exec(success, error, "FirebasePlugin", "unregister", []);
+exports.unregister = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "unregister", []);
 };
 
-exports.logEvent = function (name, params, success, error) {
-  exec(success, error, "FirebasePlugin", "logEvent", [name, params]);
+//
+// Analytics
+//
+exports.enableAnalytics = function (enable, success, error) {
+    exec(success, error, PLUGIN_NAME, "enableAnalytics", [enable]);
 };
 
-exports.logError = function (message, success, error) {
-  exec(success, error, "FirebasePlugin", "logError", [message]);
+exports.logEvent = function(name, params, success, error) {
+    exec(success, error, PLUGIN_NAME, "logEvent", [name, params]);
 };
 
-exports.setCrashlyticsUserId = function (userId, success, error) {
-    exec(success, error, "FirebasePlugin", "setCrashlyticsUserId", [userId]);
+exports.setScreenName = function(name, success, error) {
+    exec(success, error, PLUGIN_NAME, "setScreenName", [name]);
 };
 
-exports.setScreenName = function (name, success, error) {
-  exec(success, error, "FirebasePlugin", "setScreenName", [name]);
+exports.setUserId = function(id, success, error) {
+    exec(success, error, PLUGIN_NAME, "setUserId", [id]);
 };
 
-exports.setUserId = function (id, success, error) {
-  exec(success, error, "FirebasePlugin", "setUserId", [id]);
+exports.setUserProperty = function(name, value, success, error) {
+    exec(success, error, PLUGIN_NAME, "setUserProperty", [name, value]);
 };
 
-exports.setUserProperty = function (name, value, success, error) {
-  exec(success, error, "FirebasePlugin", "setUserProperty", [name, value]);
+//
+// Crashlytics
+//
+exports.logError = function(message, success, error) {
+    exec(success, error, PLUGIN_NAME, "logError", [message]);
 };
 
-exports.activateFetched = function (success, error) {
-  exec(success, error, "FirebasePlugin", "activateFetched", []);
+exports.forceCrashlytics = function(message, success, error) {
+    exec(success, error, PLUGIN_NAME, "forceCrashlytics", [message]);
 };
 
-exports.fetch = function (cacheExpirationSeconds, success, error) {
-  var args = [];
-  if (typeof cacheExpirationSeconds === 'number') {
-    args.push(cacheExpirationSeconds);
-  } else {
-    error = success;
-    success = cacheExpirationSeconds;
-  }
-  exec(success, error, "FirebasePlugin", "fetch", args);
+//
+// Performance
+//
+exports.startTrace = function(name, success, error) {
+    exec(success, error, PLUGIN_NAME, "startTrace", [name]);
 };
 
-exports.getByteArray = function (key, namespace, success, error) {
-  var args = [key];
-  if (typeof namespace === 'string') {
-    args.push(namespace);
-  } else {
-    error = success;
-    success = namespace;
-  }
-  exec(success, error, "FirebasePlugin", "getByteArray", args);
+exports.incrementCounter = function(name, counterNamed, success, error) {
+    exec(success, error, PLUGIN_NAME, "incrementCounter", [name, counterNamed]);
 };
 
-exports.getValue = function (key, namespace, success, error) {
-  var args = [key];
-  if (typeof namespace === 'string') {
-    args.push(namespace);
-  } else {
-    error = success;
-    success = namespace;
-  }
-  exec(success, error, "FirebasePlugin", "getValue", args);
+exports.stopTrace = function(name, success, error) {
+    exec(success, error, PLUGIN_NAME, "stopTrace", [name]);
 };
 
-exports.getInfo = function (success, error) {
-  exec(success, error, "FirebasePlugin", "getInfo", []);
+exports.enablePerformanceMonitoring = function(enable, success, error) {
+    exec(success, error, PLUGIN_NAME, "enablePerformanceMonitoring", [enable]);
 };
 
-exports.setConfigSettings = function (settings, success, error) {
-  exec(success, error, "FirebasePlugin", "setConfigSettings", [settings]);
+exports.isPerformanceMonitoringEnabled = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "isPerformanceMonitoringEnabled", []);
 };
 
-exports.setDefaults = function (defaults, namespace, success, error) {
-  var args = [defaults];
-  if (typeof namespace === 'string') {
-    args.push(namespace);
-  } else {
-    error = success;
-    success = namespace;
-  }
-  exec(success, error, "FirebasePlugin", "setDefaults", args);
+exports.addTraceAttribute = function(traceName, attribute, value, success, error) {
+    exec(success, error, PLUGIN_NAME, "addTraceAttribute", [traceName, attribute, value]);
 };
 
-exports.startTrace = function (name, success, error) {
-  exec(success, error, "FirebasePlugin", "startTrace", [name]);
+//
+// Remote configuration
+//
+exports.activateFetched = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "activateFetched", []);
 };
 
-exports.incrementCounter = function (name, counterNamed, success, error) {
-  exec(success, error, "FirebasePlugin", "incrementCounter", [name, counterNamed]);
+exports.fetch = function(cacheExpirationSeconds, success, error) {
+    var args = [];
+    if (typeof cacheExpirationSeconds === 'number') {
+        args.push(cacheExpirationSeconds);
+    } else {
+        error = success;
+        success = cacheExpirationSeconds;
+    }
+    exec(success, error, PLUGIN_NAME, "fetch", args);
 };
 
-exports.stopTrace = function (name, success, error) {
-  exec(success, error, "FirebasePlugin", "stopTrace", [name]);
+exports.getByteArray = function(key, namespace, success, error) {
+    var args = [key];
+    if (typeof namespace === 'string') {
+        args.push(namespace);
+    } else {
+        error = success;
+        success = namespace;
+    }
+    exec(success, error, PLUGIN_NAME, "getByteArray", args);
 };
 
-exports.setAnalyticsCollectionEnabled = function (enabled, success, error) {
-  exec(success, error, "FirebasePlugin", "setAnalyticsCollectionEnabled", [enabled]);
+exports.getValue = function(key, namespace, success, error) {
+    var args = [key];
+    if (typeof namespace === 'string') {
+        args.push(namespace);
+    } else {
+        error = success;
+        success = namespace;
+    }
+    exec(success, error, PLUGIN_NAME, "getValue", args);
 };
 
-exports.setPerformanceCollectionEnabled = function (enabled, success, error) {
-  exec(success, error, "FirebasePlugin", "setPerformanceCollectionEnabled", [enabled]);
+exports.getInfo = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "getInfo", []);
 };
 
-exports.verifyPhoneNumber = function (number, timeOutDuration, success, error) {
-  if (typeof timeOutDuration === 'function') {
-    // method being called with old signature: function(number, success, error)
-    // timeOutDuration is the success callback, success is the error callback
-    exec(timeOutDuration, success, "FirebasePlugin", "verifyPhoneNumber", [number]);
-  } else {
-    // method being called with new signature: function(number, timeOutDuration, success, error)
-    // callbacks are correctly named
-    exec(success, error, "FirebasePlugin", "verifyPhoneNumber", [number, timeOutDuration]);
-  }
+exports.setConfigSettings = function(settings, success, error) {
+    exec(success, error, PLUGIN_NAME, "setConfigSettings", [settings]);
 };
 
-exports.clearAllNotifications = function (success, error) {
-  exec(success, error, "FirebasePlugin", "clearAllNotifications", []);
+exports.setDefaults = function(defaults, namespace, success, error) {
+    var args = [defaults];
+    if (typeof namespace === 'string') {
+        args.push(namespace);
+    } else {
+        error = success;
+        success = namespace;
+    }
+    exec(success, error, PLUGIN_NAME, "setDefaults", args);
+};
+
+//
+// Dynamic Links
+//
+exports.onDynamicLink = function(success, error) {
+    exec(success, error, PLUGIN_NAME, "onDynamicLink", []);
+};
+
+exports.dynamicLinkCallback = function(dynamicLink) {
+    var ev = document.createEvent('HTMLEvents');
+    ev.dynamicLink = dynamicLink;
+    ev.initEvent('dynamic-link', true, true, arguments);
+    document.dispatchEvent(ev);
+};
+
+
+exports.setAnalyticsCollectionEnabled = function(enabled, success, error) {
+    exec(success, error, PLUGIN_NAME, "setAnalyticsCollectionEnabled", [enabled]);
+};
+
+exports.verifyPhoneNumber = function(number, timeOutDuration, success, error) {
+    if (typeof timeOutDuration === 'function') {
+      // method being called with old signature: function(number, success, error)
+      // timeOutDuration is the success callback, success is the error callback
+      exec(timeOutDuration, success, PLUGIN_NAME, "verifyPhoneNumber", [number]);
+    } else {
+      // method being called with new signature: function(number, timeOutDuration, success, error)
+      // callbacks are correctly named
+      exec(success, error, PLUGIN_NAME, "verifyPhoneNumber", [number, timeOutDuration]);
+    }
 };

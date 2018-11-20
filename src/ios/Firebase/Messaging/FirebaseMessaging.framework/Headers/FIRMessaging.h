@@ -16,8 +16,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  *  @related FIRMessaging
  *
@@ -80,7 +78,7 @@ typedef void(^FIRMessagingConnectCompletion)(NSError * __nullable error)
  *  successfully to the server. The notification object will be the messageID
  *  of the successfully delivered message.
  */
-FOUNDATION_EXPORT const NSNotificationName FIRMessagingSendSuccessNotification
+FOUNDATION_EXPORT const NSNotificationName __nonnull FIRMessagingSendSuccessNotification
     NS_SWIFT_NAME(MessagingSendSuccess);
 
 /**
@@ -89,7 +87,7 @@ FOUNDATION_EXPORT const NSNotificationName FIRMessagingSendSuccessNotification
  *  message. The userInfo dictionary will contain the relevant error
  *  information for the failure.
  */
-FOUNDATION_EXPORT const NSNotificationName FIRMessagingSendErrorNotification
+FOUNDATION_EXPORT const NSNotificationName __nonnull FIRMessagingSendErrorNotification
     NS_SWIFT_NAME(MessagingSendError);
 
 /**
@@ -100,7 +98,7 @@ FOUNDATION_EXPORT const NSNotificationName FIRMessagingSendErrorNotification
  *  It is recommended to retrieve any missing messages directly from the
  *  server.
  */
-FOUNDATION_EXPORT const NSNotificationName FIRMessagingMessagesDeletedNotification
+FOUNDATION_EXPORT const NSNotificationName __nonnull FIRMessagingMessagesDeletedNotification
     NS_SWIFT_NAME(MessagingMessagesDeleted);
 
 /**
@@ -108,7 +106,7 @@ FOUNDATION_EXPORT const NSNotificationName FIRMessagingMessagesDeletedNotificati
  *  an FCM socket connection. You can query the connection state in this
  *  notification by checking the `isDirectChannelEstablished` property of FIRMessaging.
  */
-FOUNDATION_EXPORT const NSNotificationName FIRMessagingConnectionStateChangedNotification
+FOUNDATION_EXPORT const NSNotificationName __nonnull FIRMessagingConnectionStateChangedNotification
     NS_SWIFT_NAME(MessagingConnectionStateChanged);
 
 /**
@@ -116,7 +114,7 @@ FOUNDATION_EXPORT const NSNotificationName FIRMessagingConnectionStateChangedNot
  *  FIRMessaging delegate method `messaging:didReceiveRegistrationToken:` to receive current and
  *  updated tokens.
  */
-FOUNDATION_EXPORT const NSNotificationName
+FOUNDATION_EXPORT const NSNotificationName __nonnull
     FIRMessagingRegistrationTokenRefreshedNotification
     NS_SWIFT_NAME(MessagingRegistrationTokenRefreshed);
 #else
@@ -125,7 +123,7 @@ FOUNDATION_EXPORT const NSNotificationName
  *  successfully to the server. The notification object will be the messageID
  *  of the successfully delivered message.
  */
-FOUNDATION_EXPORT NSString *const FIRMessagingSendSuccessNotification
+FOUNDATION_EXPORT NSString * __nonnull const FIRMessagingSendSuccessNotification
     NS_SWIFT_NAME(MessagingSendSuccessNotification);
 
 /**
@@ -134,7 +132,7 @@ FOUNDATION_EXPORT NSString *const FIRMessagingSendSuccessNotification
  *  message. The userInfo dictionary will contain the relevant error
  *  information for the failure.
  */
-FOUNDATION_EXPORT NSString *const FIRMessagingSendErrorNotification
+FOUNDATION_EXPORT NSString * __nonnull const FIRMessagingSendErrorNotification
     NS_SWIFT_NAME(MessagingSendErrorNotification);
 
 /**
@@ -145,7 +143,7 @@ FOUNDATION_EXPORT NSString *const FIRMessagingSendErrorNotification
  *  It is recommended to retrieve any missing messages directly from the
  *  server.
  */
-FOUNDATION_EXPORT NSString *const FIRMessagingMessagesDeletedNotification
+FOUNDATION_EXPORT NSString * __nonnull const FIRMessagingMessagesDeletedNotification
     NS_SWIFT_NAME(MessagingMessagesDeletedNotification);
 
 /**
@@ -153,7 +151,7 @@ FOUNDATION_EXPORT NSString *const FIRMessagingMessagesDeletedNotification
  *  an FCM socket connection. You can query the connection state in this
  *  notification by checking the `isDirectChannelEstablished` property of FIRMessaging.
  */
-FOUNDATION_EXPORT NSString *const FIRMessagingConnectionStateChangedNotification
+FOUNDATION_EXPORT NSString * __nonnull const FIRMessagingConnectionStateChangedNotification
     NS_SWIFT_NAME(MessagingConnectionStateChangedNotification);
 
 /**
@@ -161,7 +159,7 @@ FOUNDATION_EXPORT NSString *const FIRMessagingConnectionStateChangedNotification
  *  FIRMessaging delegate method `messaging:didReceiveRegistrationToken:` to receive current and
  *  updated tokens.
  */
-FOUNDATION_EXPORT NSString *const FIRMessagingRegistrationTokenRefreshedNotification
+FOUNDATION_EXPORT NSString * __nonnull const FIRMessagingRegistrationTokenRefreshedNotification
     NS_SWIFT_NAME(MessagingRegistrationTokenRefreshedNotification);
 #endif  // defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
@@ -234,13 +232,15 @@ NS_SWIFT_NAME(MessagingRemoteMessage)
 @interface FIRMessagingRemoteMessage : NSObject
 
 /// The downstream message received by the application.
-@property(nonatomic, readonly, strong) NSDictionary *appData;
+@property(nonatomic, readonly, strong, nonnull) NSDictionary *appData;
 @end
 
 @class FIRMessaging;
 /**
- * A protocol to handle token update or data message delivery from FCM.
+ * A protocol to handle events from FCM for devices running iOS 10 or above.
  *
+ * To support devices running iOS 9 or below, use the local and remote notifications handlers
+ * defined in UIApplicationDelegate protocol.
  */
 NS_SWIFT_NAME(MessagingDelegate)
 @protocol FIRMessagingDelegate <NSObject>
@@ -253,17 +253,31 @@ NS_SWIFT_NAME(MessagingDelegate)
 /// * Uploading the FCM token to your application server, so targeted notifications can be sent.
 ///
 /// * Subscribing to any topics.
-- (void)messaging:(FIRMessaging *)messaging
-    didReceiveRegistrationToken:(NSString *)fcmToken
+- (void)messaging:(nonnull FIRMessaging *)messaging
+    didReceiveRegistrationToken:(nonnull NSString *)fcmToken
     NS_SWIFT_NAME(messaging(_:didReceiveRegistrationToken:));
+
+/// This method will be called whenever FCM receives a new, default FCM token for your
+/// Firebase project's Sender ID. This method is deprecated. Please use
+/// `messaging:didReceiveRegistrationToken:`.
+- (void)messaging:(nonnull FIRMessaging *)messaging
+    didRefreshRegistrationToken:(nonnull NSString *)fcmToken
+    NS_SWIFT_NAME(messaging(_:didRefreshRegistrationToken:))
+    __deprecated_msg("Please use messaging:didReceiveRegistrationToken:, which is called for both \
+                     current and refreshed tokens.");
 
 /// This method is called on iOS 10 devices to handle data messages received via FCM through its
 /// direct channel (not via APNS). For iOS 9 and below, the FCM data message is delivered via the
 /// UIApplicationDelegate's -application:didReceiveRemoteNotification: method.
-- (void)messaging:(FIRMessaging *)messaging
-    didReceiveMessage:(FIRMessagingRemoteMessage *)remoteMessage
+- (void)messaging:(nonnull FIRMessaging *)messaging
+    didReceiveMessage:(nonnull FIRMessagingRemoteMessage *)remoteMessage
     NS_SWIFT_NAME(messaging(_:didReceive:))
     __IOS_AVAILABLE(10.0);
+
+/// The callback to handle data message received via FCM for devices running iOS 10 or above.
+- (void)applicationReceivedRemoteMessage:(nonnull FIRMessagingRemoteMessage *)remoteMessage
+    NS_SWIFT_NAME(application(received:))
+    __deprecated_msg("Use FIRMessagingDelegate’s -messaging:didReceiveMessage:");
 
 @end
 
@@ -291,24 +305,19 @@ NS_SWIFT_NAME(Messaging)
  *  receiving non-APNS, data-only messages in foregrounded apps.
  *  Default is `NO`.
  */
-@property(nonatomic) BOOL shouldEstablishDirectChannel;
-
-/**
- *  Returns `YES` if the direct channel to the FCM server is active, and `NO` otherwise.
- */
-@property(nonatomic, readonly) BOOL isDirectChannelEstablished;
+@property(nonatomic, assign, getter=isDirectChannelEstablished) BOOL shouldEstablishDirectChannel;
 
 /**
  *  FIRMessaging
  *
  *  @return An instance of FIRMessaging.
  */
-+ (instancetype)messaging NS_SWIFT_NAME(messaging());
++ (nonnull instancetype)messaging NS_SWIFT_NAME(messaging());
 
 /**
  *  Unavailable. Use +messaging instead.
  */
-- (instancetype)init __attribute__((unavailable("Use +messaging instead.")));
+- (nonnull instancetype)init __attribute__((unavailable("Use +messaging instead.")));
 
 #pragma mark - APNS
 
@@ -338,7 +347,7 @@ NS_SWIFT_NAME(Messaging)
  *  FIRMessagingAPNSTokenTypeUnknown to have the type automatically
  *  detected based on your provisioning profile.
  */
-- (void)setAPNSToken:(NSData *)apnsToken type:(FIRMessagingAPNSTokenType)type;
+- (void)setAPNSToken:(nonnull NSData *)apnsToken type:(FIRMessagingAPNSTokenType)type;
 
 #pragma mark - FCM Tokens
 
@@ -393,8 +402,8 @@ NS_SWIFT_NAME(Messaging)
  *  @param senderID The Sender ID for a particular Firebase project.
  *  @param completion The completion handler to handle the token request.
  */
-- (void)retrieveFCMTokenForSenderID:(NSString *)senderID
-                         completion:(FIRMessagingFCMTokenFetchCompletion)completion
+- (void)retrieveFCMTokenForSenderID:(nonnull NSString *)senderID
+                         completion:(nonnull FIRMessagingFCMTokenFetchCompletion)completion
     NS_SWIFT_NAME(retrieveFCMToken(forSenderID:completion:));
 
 
@@ -405,8 +414,8 @@ NS_SWIFT_NAME(Messaging)
  *  @param senderID The senderID for a particular Firebase project.
  *  @param completion The completion handler to handle the token deletion.
  */
-- (void)deleteFCMTokenForSenderID:(NSString *)senderID
-                       completion:(FIRMessagingDeleteFCMTokenCompletion)completion
+- (void)deleteFCMTokenForSenderID:(nonnull NSString *)senderID
+                       completion:(nonnull FIRMessagingDeleteFCMTokenCompletion)completion
     NS_SWIFT_NAME(deleteFCMToken(forSenderID:completion:));
 
 
@@ -424,7 +433,7 @@ NS_SWIFT_NAME(Messaging)
  *                  the same time, FIRMessaging performs exponential backoff to retry
  *                  establishing a connection and invoke the handler when successful.
  */
-- (void)connectWithCompletion:(FIRMessagingConnectCompletion)handler
+- (void)connectWithCompletion:(nonnull FIRMessagingConnectCompletion)handler
     NS_SWIFT_NAME(connect(handler:))
     __deprecated_msg("Please use the shouldEstablishDirectChannel property instead.");
 
@@ -446,7 +455,7 @@ NS_SWIFT_NAME(Messaging)
  *
  *  @param topic The name of the topic, for example, @"sports".
  */
-- (void)subscribeToTopic:(NSString *)topic NS_SWIFT_NAME(subscribe(toTopic:));
+- (void)subscribeToTopic:(nonnull NSString *)topic NS_SWIFT_NAME(subscribe(toTopic:));
 
 /**
  *  Asynchronously subscribe to the provided topic, retrying on failure.
@@ -464,7 +473,7 @@ NS_SWIFT_NAME(Messaging)
  *
  *  @param topic The name of the topic, for example @"sports".
  */
-- (void)unsubscribeFromTopic:(NSString *)topic NS_SWIFT_NAME(unsubscribe(fromTopic:));
+- (void)unsubscribeFromTopic:(nonnull NSString *)topic NS_SWIFT_NAME(unsubscribe(fromTopic:));
 
 /**
  *  Asynchronously unsubscribe from the provided topic, retrying on failure.
@@ -502,9 +511,9 @@ NS_SWIFT_NAME(Messaging)
  *                      if the message has been dropped because of TTL; this can happen
  *                      on the server side, and it would require extra communication.
  */
-- (void)sendMessage:(NSDictionary *)message
-                 to:(NSString *)receiver
-      withMessageID:(NSString *)messageID
+- (void)sendMessage:(nonnull NSDictionary *)message
+                 to:(nonnull NSString *)receiver
+      withMessageID:(nonnull NSString *)messageID
          timeToLive:(int64_t)ttl;
 
 #pragma mark - Analytics
@@ -520,8 +529,6 @@ NS_SWIFT_NAME(Messaging)
  *
  *  @return Information about the downstream message.
  */
-- (FIRMessagingMessageInfo *)appDidReceiveMessage:(NSDictionary *)message;
+- (nonnull FIRMessagingMessageInfo *)appDidReceiveMessage:(nonnull NSDictionary *)message;
 
 @end
-
-NS_ASSUME_NONNULL_END
