@@ -165,13 +165,15 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "Sound was null ");
             }
 
+            int lightArgb = 0;
             if (lights != null) {
               try {
                 String[] lightsComponents = lights.replaceAll("\\s", "").split(",");
                 if (lightsComponents.length == 3) {
-                  int lightArgb = Color.parseColor(lightsComponents[0]);
+                  lightArgb = Color.parseColor(lightsComponents[0]);
                   int lightOnMs = Integer.parseInt(lightsComponents[1]);
                   int lightOffMs = Integer.parseInt(lightsComponents[2]);
+                  
                   notificationBuilder.setLights(lightArgb, lightOnMs, lightOffMs);
                 }
               } catch (Exception e) {
