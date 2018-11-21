@@ -57,6 +57,8 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         // and data payloads are treated as notification messages. The Firebase console always sends notification
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
+        
+        Log.d(TAG, "Message received");
 
         // Pass the message to the receiver manager so any registered receivers can decide to handle it
         boolean wasHandled = FirebasePluginMessageReceiverManager.onMessageReceived(remoteMessage);
