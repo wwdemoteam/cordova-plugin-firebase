@@ -199,6 +199,7 @@ public class FirebasePlugin extends CordovaPlugin {
             this.onDynamicLink(callbackContext);
             return true;
         }
+
         return false;
     }
 
@@ -227,7 +228,7 @@ public class FirebasePlugin extends CordovaPlugin {
         }
         if (data != null && data.containsKey("google.message_id")) {
             data.putBoolean("tap", true);
-            FirebasePlugin.sendNotification(data);
+            FirebasePlugin.sendNotification(data, this.cordova.getActivity().getApplicationContext());
         }
     }
 
@@ -285,7 +286,7 @@ public class FirebasePlugin extends CordovaPlugin {
         FirebasePlugin.notificationCallbackContext = callbackContext;
         if (FirebasePlugin.notificationStack != null) {
             for (Bundle bundle : FirebasePlugin.notificationStack) {
-                FirebasePlugin.sendNotification(bundle);
+                FirebasePlugin.sendNotification(bundle, this.cordova.getActivity().getApplicationContext());
             }
             FirebasePlugin.notificationStack.clear();
         }
@@ -298,7 +299,6 @@ public class FirebasePlugin extends CordovaPlugin {
             public void run() {
                 try {
                     String currentToken = FirebaseInstanceId.getInstance().getToken();
-
                     if (currentToken != null) {
                         FirebasePlugin.sendToken(currentToken);
                     }
@@ -309,13 +309,13 @@ public class FirebasePlugin extends CordovaPlugin {
         });
     }
 
-    public static void sendNotification(Bundle bundle) {
-
+    public static void sendNotification(Bundle bundle, Context context) {
         if (!FirebasePlugin.hasNotificationsCallback()) {
             if (FirebasePlugin.notificationStack == null) {
                 FirebasePlugin.notificationStack = new ArrayList<Bundle>();
             }
             notificationStack.add(bundle);
+
             return;
         }
         final CallbackContext callbackContext = FirebasePlugin.notificationCallbackContext;
@@ -341,6 +341,7 @@ public class FirebasePlugin extends CordovaPlugin {
         if (FirebasePlugin.tokenRefreshCallbackContext == null) {
             return;
         }
+
         final CallbackContext callbackContext = FirebasePlugin.tokenRefreshCallbackContext;
         if (callbackContext != null && token != null) {
             PluginResult pluginresult = new PluginResult(PluginResult.Status.OK, token);
