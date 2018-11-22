@@ -62,7 +62,7 @@ import android.text.TextUtils;
 public class FirebasePlugin extends CordovaPlugin {
 
   private FirebaseAnalytics mFirebaseAnalytics;
-  private final String TAG = "FirebasePlugin";
+  private static final String TAG = "FirebasePlugin";
   protected static final String KEY = "badge";
 
   private static boolean inBackground = true;
