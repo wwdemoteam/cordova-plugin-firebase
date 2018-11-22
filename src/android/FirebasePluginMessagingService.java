@@ -216,7 +216,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
           channel.enableVibration(true);
           channel.setShowBadge(true);
           if (lights != null) {
-            Log.d(TAG, "lightArgb: " + Integer.ToString(lightArgb));
+            Log.d(TAG, "lightArgb: " + Integer.toString(lightArgb));
             channel.setLightColor(lightArgb);
           }
           notificationManager.createNotificationChannel(channel);

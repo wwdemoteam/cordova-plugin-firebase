@@ -420,7 +420,7 @@ public class FirebasePlugin extends CordovaPlugin {
   }
 
   private void setBadgeNumber(final CallbackContext callbackContext, final int number) {
-    Log.d(TAG, "setBadgeNumber called. number: " + Integer.ToString(number));
+    Log.d(TAG, "setBadgeNumber called. number: " + Integer.toString(number));
     cordova.getThreadPool().execute(new Runnable() {
       public void run() {
         try {
@@ -447,7 +447,7 @@ public class FirebasePlugin extends CordovaPlugin {
           SharedPreferences settings = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
           int number = settings.getInt(KEY, 0);
           callbackContext.success(number);
-          Log.d(TAG, "getBadgeNumber success. number: " + Integer.ToString(number));
+          Log.d(TAG, "getBadgeNumber success. number: " + Integer.toString(number));
         } catch (Exception e) {
           callbackContext.error(e.getMessage());
         }
