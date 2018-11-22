@@ -1,5 +1,6 @@
 package org.apache.cordova.firebase;
 
+import android.util.Log;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
