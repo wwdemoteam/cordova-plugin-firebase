@@ -103,24 +103,25 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
       id = Integer.toString(n);
     }
 
+    String badge = data.get("badge");
+
     Log.d(TAG, "From: " + remoteMessage.getFrom());
     Log.d(TAG, "Notification Message id: " + id);
     Log.d(TAG, "Notification Message Title: " + title);
     Log.d(TAG, "Notification Message Body/Text: " + text);
     Log.d(TAG, "Notification Message Sound: " + sound);
     Log.d(TAG, "Notification Message Lights: " + lights);
+    Log.d(TAG, "Notification Badge: " + badge);
+
+    if (badge != null && !badge.isEmpty()) {
+      setBadgeNumber(badge);
+    }
 
     // TODO: Add option to developer to configure if show notification when app on foreground
     if (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title) || (!data.isEmpty())) {
       boolean showNotification = (FirebasePlugin.inBackground() || !FirebasePlugin.hasNotificationsCallback()) && (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title));
       Log.d(TAG, "showNotification: " + (showNotification ? "true" : "false"));
       sendNotification(id, title, text, data, showNotification, sound, lights);
-    }
-
-    String badge = data.get("badge");
-    Log.d(TAG, "Badge: " + badge);
-    if (badge != null && !badge.isEmpty()) {
-      setBadgeNumber(badge);
     }
   }
 
