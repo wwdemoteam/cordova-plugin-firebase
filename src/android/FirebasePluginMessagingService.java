@@ -171,16 +171,15 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
       int lightArgb = 0;
       if (lights != null) {
         try {
-        String[] lightsComponents = lights.replaceAll("\\s", "").split(",");
-        if (lightsComponents.length == 3) {
-          lightArgb = Color.parseColor(lightsComponents[0]);
-          int lightOnMs = Integer.parseInt(lightsComponents[1]);
-          int lightOffMs = Integer.parseInt(lightsComponents[2]);
-          
-          notificationBuilder.setLights(lightArgb, lightOnMs, lightOffMs);
-        }
-        } catch (Exception e) {
-        }
+          String[] lightsComponents = lights.replaceAll("\\s", "").split(",");
+          if (lightsComponents.length == 3) {
+            lightArgb = Color.parseColor(lightsComponents[0]);
+            int lightOnMs = Integer.parseInt(lightsComponents[1]);
+            int lightOffMs = Integer.parseInt(lightsComponents[2]);
+            
+            notificationBuilder.setLights(lightArgb, lightOnMs, lightOffMs);
+          }
+        } catch (Exception e) { }
       }
 
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -235,41 +234,41 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
   private void setBadgeNumber(String badge) {
     try {
-    int count = 0;
-    Context applicationContext = getApplicationContext();
+      int count = 0;
+      Context applicationContext = getApplicationContext();
 
-    if (isPositiveInteger(badge)) {
-      count = Integer.parseInt(badge);
-      applyBadgeCount(applicationContext, count);
-    } else {
-      if (badge.startsWith("++") || badge.startsWith("--")) {
-      int delta = 0;
-      int currentBadgeNumber = getCurrentBadgeNumber(applicationContext);
-      boolean toIncrement = badge.startsWith("++");
-      badge = badge.substring(2);
-      if (badge.isEmpty()) {
-        delta = 1;
+      if (isPositiveInteger(badge)) {
+        count = Integer.parseInt(badge);
+        applyBadgeCount(applicationContext, count);
       } else {
-        delta = Integer.parseInt(badge);
+        if (badge.startsWith("++") || badge.startsWith("--")) {
+          int delta = 0;
+          int currentBadgeNumber = getCurrentBadgeNumber(applicationContext);
+          boolean toIncrement = badge.startsWith("++");
+          badge = badge.substring(2);
+          if (badge.isEmpty()) {
+            delta = 1;
+          } else {
+            delta = Integer.parseInt(badge);
+          }
+          count = toIncrement ? currentBadgeNumber + delta : currentBadgeNumber - delta;
+          if (count < 0) {
+            count = 0;
+          }
+          applyBadgeCount(applicationContext, count);
+        }
       }
-      count = toIncrement ? currentBadgeNumber + delta : currentBadgeNumber - delta;
-      if (count < 0) {
-        count = 0;
-      }
-      applyBadgeCount(applicationContext, count);
-      }
-    }
     } catch (Exception e) {
-    Log.e(TAG, e.getLocalizedMessage(), e);
+      Log.e(TAG, e.getLocalizedMessage(), e);
     }
   }
 
   private void applyBadgeCount(Context context, int count) {
     Log.d(TAG, "Applying badge count: " + count);
+    ShortcutBadger.applyCount(context, count);
     SharedPreferences.Editor editor = context.getSharedPreferences(KEY, Context.MODE_PRIVATE).edit();
     editor.putInt(KEY, count);
     editor.apply();
-    ShortcutBadger.applyCount(context, count);
   }
 
   private int getCurrentBadgeNumber(Context context) {
@@ -282,11 +281,11 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
   // Defaults radix = 10
   private static boolean isPositiveInteger(String s) {
     if (s == null || s.isEmpty()) {
-    return false;
+      return false;
     }
     for (int i = 0; i < s.length(); i++) {
       if (Character.digit(s.charAt(i), 10) < 0) {
-      return false;
+        return false;
       }
     }
     return true;

@@ -2,17 +2,9 @@ var exec = require('cordova/exec');
 
 var PLUGIN_NAME = 'FirebasePlugin';
 
-exports.getVerificationID = function (number, success, error) {
-  exec(success, error, PLUGIN_NAME, "getVerificationID", [number]);
-};
-
 //
 // Cloud Messaging FCM
 //
-exports.getInstanceId = function (success, error) {
-  exec(success, error, PLUGIN_NAME, "getInstanceId", []);
-};
-
 exports.getId = function (success, error) {
   exec(success, error, PLUGIN_NAME, "getId", []);
 };
@@ -21,20 +13,12 @@ exports.getToken = function (success, error) {
   exec(success, error, PLUGIN_NAME, "getToken", []);
 };
 
-exports.onNotificationOpen = function (success, error) {
-  exec(success, error, PLUGIN_NAME, "onNotificationOpen", []);
-};
-
-exports.onTokenRefresh = function (success, error) {
-  exec(success, error, PLUGIN_NAME, "onTokenRefresh", []);
+exports.hasPermission = function (success, error) {
+  exec(success, error, PLUGIN_NAME, "hasPermission", []);
 };
 
 exports.grantPermission = function (success, error) {
   exec(success, error, PLUGIN_NAME, "grantPermission", []);
-};
-
-exports.hasPermission = function (success, error) {
-  exec(success, error, PLUGIN_NAME, "hasPermission", []);
 };
 
 exports.setBadgeNumber = function (number, success, error) {
@@ -57,13 +41,21 @@ exports.unregister = function (success, error) {
   exec(success, error, PLUGIN_NAME, "unregister", []);
 };
 
+exports.onNotificationOpen = function (success, error) {
+  exec(success, error, PLUGIN_NAME, "onNotificationOpen", []);
+};
+
+exports.onTokenRefresh = function (success, error) {
+  exec(success, error, PLUGIN_NAME, "onTokenRefresh", []);
+};
+
+exports.clearAllNotifications = function (success, error) {
+  exec(success, error, PLUGIN_NAME, "clearAllNotifications", []);
+};
+
 //
 // Analytics
 //
-exports.enableAnalytics = function (enable, success, error) {
-  exec(success, error, PLUGIN_NAME, "enableAnalytics", [enable]);
-};
-
 exports.logEvent = function (name, params, success, error) {
   exec(success, error, PLUGIN_NAME, "logEvent", [name, params]);
 };
@@ -95,6 +87,10 @@ exports.forceCrashlytics = function (message, success, error) {
   exec(success, error, PLUGIN_NAME, "forceCrashlytics", [message]);
 };
 
+exports.setCrashlyticsUserId = function (userId, success, error) {
+  exec(success, error, PLUGIN_NAME, "setCrashlyticsUserId", [userId]);
+};
+
 //
 // Performance
 //
@@ -110,16 +106,12 @@ exports.stopTrace = function (name, success, error) {
   exec(success, error, PLUGIN_NAME, "stopTrace", [name]);
 };
 
-exports.enablePerformanceMonitoring = function (enable, success, error) {
-  exec(success, error, PLUGIN_NAME, "enablePerformanceMonitoring", [enable]);
-};
-
-exports.isPerformanceMonitoringEnabled = function (success, error) {
-  exec(success, error, PLUGIN_NAME, "isPerformanceMonitoringEnabled", []);
-};
-
 exports.addTraceAttribute = function (traceName, attribute, value, success, error) {
   exec(success, error, PLUGIN_NAME, "addTraceAttribute", [traceName, attribute, value]);
+};
+
+exports.setPerformanceCollectionEnabled = function (enabled, success, error) {
+  exec(success, error, PLUGIN_NAME, "setPerformanceCollectionEnabled", [enabled]);
 };
 
 //
