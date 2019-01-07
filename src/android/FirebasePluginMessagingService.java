@@ -15,6 +15,7 @@ import android.app.Notification;
 import android.text.TextUtils;
 import android.content.ContentResolver;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -217,9 +218,19 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
           channel.enableLights(true);
           channel.enableVibration(true);
           channel.setShowBadge(true);
+          
           if (lights != null) {
             Log.d(TAG, "lightArgb: " + Integer.toString(lightArgb));
             channel.setLightColor(lightArgb);
+          }
+          
+          if (sound != null) {
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build();
+            Uri soundPath = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                + "://" + getPackageName() + "/raw/" + sound);
+            channel.setSound(soundPath, attributes);
           }
           notificationManager.createNotificationChannel(channel);
         }
@@ -293,7 +304,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
     return true;
   }
   
-  private static boolean checkIfFilesExists(String fileName) {
+  private boolean checkIfFilesExists(String fileName) {
     Context applicationContext = getApplicationContext();
     int checkExistence = applicationContext.getResources().getIdentifier(fileName, "raw", applicationContext.getPackageName());
     return checkExistence != 0;
