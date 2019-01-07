@@ -64,7 +64,8 @@ module.exports = function (context) {
   }
 
   if (!soundFile) {
-    handleError("No sound file found", defer);
+    console.log("No sound file found");
+    return defer.promise;
   }
 
   return defer.promise;
