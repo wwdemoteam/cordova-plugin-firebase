@@ -212,6 +212,8 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             channelExists = true;
           }
         }
+        
+        Log.d(TAG, "Channel exists: " + (channelExists ? "true" : "false"));
 
         if (!channelExists) {
           NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
@@ -232,6 +234,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 + "://" + getPackageName() + "/raw/" + sound);
             channel.setSound(soundPath, attributes);
           }
+          
           notificationManager.createNotificationChannel(channel);
         }
       }
