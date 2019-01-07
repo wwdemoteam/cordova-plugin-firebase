@@ -162,6 +162,8 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "sound before path is: " + sound);
         Uri soundPath = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
           + "://" + getPackageName() + "/raw/" + sound);
+        boolean fileExists = checkIfFilesExists(sound);
+        Log.d(TAG, "Sound file exists: " + (fileExists ? "true" : "false"));
         Log.d(TAG, "Parsed sound is: " + soundPath.toString());
         notificationBuilder.setSound(soundPath);
       } else {
@@ -289,5 +291,11 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
       }
     }
     return true;
+  }
+  
+  private static boolean checkIfFilesExists(String fileName) {
+    Context applicationContext = getApplicationContext();
+    int checkExistence = applicationContext.getResources().getIdentifier(fileName, "raw", applicationContext.getPackageName());
+    return checkExistence != 0;
   }
 }
