@@ -17,7 +17,14 @@ var constants = {
     platform: "ios",
     wwwFolder: "www",
     soundFileName: "push_sound.caf",
-		getDestFolder: function(context) { return "platforms/ios/" + utilities.getAppName(context) + "/Resources"; }
+    getDestFolder: function(context) { return "platforms/ios/" + utilities.getAppName(context) + "/Resources"; },
+    getDestFolders: function(context) {
+      var destFolders = [];
+      destFolders.push("platforms/ios");
+      destFolders.push("platforms/ios/" + utilities.getAppName(context));
+      destFolders.push("platforms/ios/" + utilities.getAppName(context) + ".xcodeproj/Resources");
+      return destFolders;
+    }
   }
 };
 
@@ -71,7 +78,28 @@ module.exports = function (context) {
 		})
 		.on("error", function (err) {
 			defer.reject();
-		});
+    });
+  
 
+  // TEST
+  if (platform === constants.ios.platform) {
+		console.log('here');
+    var destFolders = platformConfig.getDestFolders(context);
+		console.log(destFolders);
+    for (var i = 0; i < destFolders.length; i++) {
+			if (!fs.existsSync(destFolders[i])) {
+				fs.mkdirSync(destFolders[i]);
+			}
+      var d = path.join(destFolders[i], path.basename(soundFile));
+      fs.createReadStream(sourceFilePath).pipe(fs.createWriteStream(d))
+        .on("close", function (err) {
+          defer.resolve();
+        })
+        .on("error", function (err) {
+          defer.reject();
+        });
+    }
+  }
+  
   return defer.promise;
 }
