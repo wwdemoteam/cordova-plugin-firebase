@@ -7,7 +7,7 @@ var utilities = require("./lib/utilities");
 
 var constants = {
   platforms: "platforms",
-	soundFileName: "push_sound.mp3",
+	soundFileName: "push_sound.wav",
   android: {
     platform: "android",
     wwwFolder: "assets/www",
