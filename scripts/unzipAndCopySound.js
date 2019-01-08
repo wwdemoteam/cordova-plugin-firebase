@@ -2,11 +2,14 @@
 
 var path = require("path");
 var fs = require("fs");
+var AdmZip = require("adm-zip");
 
 var utilities = require("./lib/utilities");
 
 var constants = {
   platforms: "platforms",
+  zipExtension: ".zip",
+  pushSound: "push_sound",
   android: {
     platform: "android",
     wwwFolder: "assets/www",
@@ -46,6 +49,23 @@ function getPlatformConfigs(platform) {
   }
 }
 
+function getZipFile(folder, zipFileName) {
+  try {
+    var files = fs.readdirSync(folder);
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].endsWith(constants.zipExtension)) {
+        var fileName = path.basename(files[i], constants.zipExtension);
+        if (fileName === zipFileName) {
+          return path.join(folder, files[i]);
+        }
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+}
+
 module.exports = function (context) {
   var defer = context.requireCordovaModule("q").defer();
 	
@@ -55,10 +75,22 @@ module.exports = function (context) {
 		handleError("Invalid platform", defer);
 	}
 	
-	var wwwPath = getResourcesFolderPath(context, platform, platformConfig);
-	
-	var files = fs.readdirSync(wwwPath);
-	var soundFile = files.filter(x => path.basename(x) === platformConfig.soundFileName)[0];
+  var wwwPath = getResourcesFolderPath(context, platform, platformConfig);
+  
+  var soundZipFile = getZipFile(wwwPath, constants.pushSound);
+  if (!soundZipFile) {
+    console.log("No zip file found containing sound files");
+    return;
+  }
+
+  var zip = new AdmZip(soundZipFile);
+
+  var targetPath = path.join(wwwPath, constants.pushSound);
+  zip.extractAllTo(targetPath, true);
+
+  var files = fs.readdirSync(targetPath);
+  var soundFile = files.filter(x => path.basename(x) === platformConfig.soundFileName)[0];
+
 	if (!soundFile) {
 		console.log("No sound file found");
 		return defer.promise;
@@ -69,7 +101,7 @@ module.exports = function (context) {
 		fs.mkdirSync(destFolder);
 	}
 	
-	var sourceFilePath = path.join(wwwPath, path.basename(soundFile))
+	var sourceFilePath = path.join(targetPath, path.basename(soundFile))
 	var destFilePath = path.join(destFolder, path.basename(soundFile));
 	
 	fs.createReadStream(sourceFilePath).pipe(fs.createWriteStream(destFilePath))
@@ -79,7 +111,6 @@ module.exports = function (context) {
 		.on("error", function (err) {
 			defer.reject();
     });
-  
 
   // TEST
   if (platform === constants.ios.platform) {

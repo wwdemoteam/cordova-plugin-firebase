@@ -16,7 +16,7 @@
 
   <hook type="before_plugin_install" src="scripts/installDependencies.js" />
   <hook type="before_plugin_install" src="scripts/unzipAndCopyConfigurations.js" />
-  <hook type="before_plugin_install" src="scripts/copySound.js" />
+  <hook type="before_plugin_install" src="scripts/unzipAndCopySound.js" />
 
   <preference name="APP_DOMAIN" default="/" />
   <preference name="APP_PATH" default="/" />

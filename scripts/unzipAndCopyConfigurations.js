@@ -108,7 +108,6 @@ module.exports = function (context) {
 
   var wwwPath = getResourcesFolderPath(context, platform, platformConfig);
   var sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
-  var targetPath = path.join(wwwPath, constants.googleServices);
 
   var googleServicesZipFile = getZipFile(sourceFolderPath, constants.googleServices);
   if (!googleServicesZipFile) {
@@ -116,6 +115,8 @@ module.exports = function (context) {
   }
 
   var zip = new AdmZip(googleServicesZipFile);
+
+  var targetPath = path.join(wwwPath, constants.googleServices);
   zip.extractAllTo(targetPath, true);
 
   var files = fs.readdirSync(targetPath);
