@@ -7,15 +7,16 @@ var utilities = require("./lib/utilities");
 
 var constants = {
   platforms: "platforms",
-	soundFileName: "push_sound.wav",
   android: {
     platform: "android",
     wwwFolder: "assets/www",
+    soundFileName: "push_sound.wav",
 		getDestFolder: function() { return "platforms/android/res/raw"; }
   },
   ios: {
     platform: "ios",
     wwwFolder: "www",
+    soundFileName: "push_sound.caf",
 		getDestFolder: function(context) { return "platforms/ios/" + utilities.getAppName(context) + "/Resources"; }
   }
 };
@@ -50,7 +51,7 @@ module.exports = function (context) {
 	var wwwPath = getResourcesFolderPath(context, platform, platformConfig);
 	
 	var files = fs.readdirSync(wwwPath);
-	var soundFile = files.filter(x => path.basename(x) === constants.soundFileName)[0];
+	var soundFile = files.filter(x => path.basename(x) === platformConfig.soundFileName)[0];
 	if (!soundFile) {
 		console.log("No sound file found");
 		return defer.promise;
