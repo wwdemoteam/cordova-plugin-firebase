@@ -114,7 +114,9 @@
     [mutableUserInfo setValue:self.applicationInBackground forKey:@"tap"];
 
     // Print full message.
+    NSLog(@"didReceiveRemoteNotification - before");
     NSLog(@"%@", mutableUserInfo);
+    NSLog(@"didReceiveRemoteNotification - after");
 
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
 }
@@ -125,8 +127,12 @@
     NSDictionary *mutableUserInfo = [userInfo mutableCopy];
 
     [mutableUserInfo setValue:self.applicationInBackground forKey:@"tap"];
+
     // Print full message.
+    NSLog(@"didReceiveRemoteNotification:fetchCompletionHandler - before");
     NSLog(@"%@", mutableUserInfo);
+    NSLog(@"didReceiveRemoteNotification:fetchCompletionHandler - after");
+
     completionHandler(UIBackgroundFetchResultNewData);
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
 }
@@ -141,8 +147,8 @@
     // notifications is yet missing. This will only work when the app is in the foreground.
     [FirebasePlugin.firebasePlugin sendNotification:remoteMessage.appData];
 }
-
 // [END ios_10_data_message]
+
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
@@ -160,7 +166,9 @@
     [mutableUserInfo setValue:self.applicationInBackground forKey:@"tap"];
 
     // Print full message.
+    NSLog(@"willPresentNotification:withCompletionHandler - before");
     NSLog(@"%@", mutableUserInfo);
+    NSLog(@"willPresentNotification:withCompletionHandler - after");
 
     completionHandler(UNNotificationPresentationOptionAlert);
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
@@ -182,7 +190,9 @@
     [mutableUserInfo setValue:@YES forKey:@"tap"];
 
     // Print full message.
+    NSLog(@"didReceiveNotificationResponse:withCompletionHandler - before");
     NSLog(@"Response %@", mutableUserInfo);
+    NSLog(@"didReceiveNotificationResponse:withCompletionHandler - after");
 
     [FirebasePlugin.firebasePlugin sendNotification:mutableUserInfo];
 
