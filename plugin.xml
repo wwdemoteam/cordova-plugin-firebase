@@ -83,6 +83,7 @@
     <framework src="com.google.firebase:firebase-config:16.1.0" />
     <framework src="com.google.firebase:firebase-perf:16.2.0" />
     <framework src="com.google.firebase:firebase-invites:16.0.4" />
+    <framework src="com.google.firebase:firebase-iid:17.0.3" />
   </platform>
 
   <platform name="ios">
