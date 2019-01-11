@@ -5,19 +5,18 @@ Android and iOS supported.
 ## Firebase Configuration Files
 1) Download your Firebase configuration files, GoogleService-Info.plist for ios and google-services.json for android.
 2) Create a zipped folder with the name "google-services.zip" and put both configuration files inside.
-3) On the project root folder, create a folder called "firebase." + YourAppIdentifier and place the zip inside.
+3) On the "www" folder, create a folder called "firebase." + YourAppIdentifier and place the zip inside.
 
 ```
 - My Project/
+    config.xml
     platforms/
     plugins/
     www/
-    config.xml
-    firebase.com.example.application.appid/
-      google-services.zip/
-        google-services.json        <--
-        GoogleService-Info.plist    <--
-    ...
+        firebase.com.example.application.appid/
+            google-services.zip/
+                google-services.json        <--
+                GoogleService-Info.plist    <--
 ```
 
 See https://support.google.com/firebase/answer/7015592 for details how to download the files from firebase.
@@ -25,6 +24,21 @@ See https://support.google.com/firebase/answer/7015592 for details how to downlo
 This plugin uses a hook (before plugin install) that copies the configuration files to the right place, namely platforms/ios/\<My Project\>/Resources for ios and platforms/android for android.
 
 **Note that the Firebase SDK requires the configuration files to be present and valid, otherwise your app will crash on boot or Firebase features won't work.**
+
+## Push Notification Custom Sound
+1) Have your sound files ready with the correct extension (.wav, .mp3 for Android / .wav, .caf for iOS) and rename them "push_sound".
+2) Prepare a zipped folder called "push_sound.zip" with the sound files.
+3) Add the zip folder to the "www" folder.
+
+```
+- My Project/
+    platforms/
+    plugins/
+    www/
+        push_sound.zip/
+            push_sound.wav      <--
+            push_sound.caf      <--
+```
 
 ## Methods
 
