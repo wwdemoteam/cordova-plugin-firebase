@@ -178,6 +178,7 @@
  didReceiveNotificationResponse:(UNNotificationResponse *)response
           withCompletionHandler:(void (^)(void))completionHandler
 {
+    NSLog(@"didReceiveNotificationResponse:withCompletionHandler - 1");
     [self.delegate userNotificationCenter:center
        didReceiveNotificationResponse:response
                 withCompletionHandler:completionHandler];
