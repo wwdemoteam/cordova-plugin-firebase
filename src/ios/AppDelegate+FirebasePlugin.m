@@ -62,12 +62,7 @@
     // [END set_messaging_delegate]
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
-    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
-      if(!error){
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-      }
-    }]
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 #endif
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:)
@@ -184,8 +179,6 @@
           withCompletionHandler:(void (^)(void))completionHandler
 {
     NSLog(@"didReceiveNotificationResponse:withCompletionHandler - 1");
-    NSLog(@"User Info : %@", response.notification.request.content.userInfo);
-
     [self.delegate userNotificationCenter:center
        didReceiveNotificationResponse:response
                 withCompletionHandler:completionHandler];
