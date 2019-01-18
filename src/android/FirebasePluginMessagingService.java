@@ -6,9 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.R;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.app.Notification;
@@ -162,7 +164,8 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
           resID = getResources().getIdentifier("icon", "mipmap", getPackageName());
           Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
           if (resID != 0) {
-            notificationBuilder.setSmallIcon(resID);
+            notificationBuilder.setSmallIcon(R.mipmap.icon);
+            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
           } else {
             notificationBuilder.setSmallIcon(getApplicationInfo().icon);
           }
