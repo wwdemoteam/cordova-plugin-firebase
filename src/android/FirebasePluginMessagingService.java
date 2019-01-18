@@ -158,7 +158,17 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         notificationBuilder.setSmallIcon(resID);
       } else {
         Log.d(TAG, "Icon - resID: 0");
-        notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+        if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION.LOLLIPOP) {
+          resID = getResources().getIdentifier("icon", "mipmap", getPackageName());
+          Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
+          if (resID != 0) {
+            notificationBuilder.setSmallIcon(resID);
+          } else {
+            notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+          }
+        } else {
+          notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+        }
       }
 
       if (sound != null) {
