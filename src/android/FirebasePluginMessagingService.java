@@ -153,15 +153,13 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MAX);
 
+      // Icon
       int resID = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
       if (resID != 0) {
-        Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
         notificationBuilder.setSmallIcon(resID);
       } else {
-        Log.d(TAG, "Icon - resID: 0");
         if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.LOLLIPOP) {
           resID = getResources().getIdentifier("icon", "mipmap", getPackageName());
-          Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
           if (resID != 0) {
             notificationBuilder.setSmallIcon(resID);
             notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), resID));
@@ -173,6 +171,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         }
       }
 
+      // Sound
       if (sound != null) {
         Log.d(TAG, "sound before path is: " + sound);
 
