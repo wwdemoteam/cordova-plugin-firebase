@@ -153,6 +153,13 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MAX);
 
+      // Title
+      if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
+        int stringId = getApplicationInfo().labelRes;
+        String appName = stringId == 0 ? getApplicationInfo().nonLocalizedLabel.toString() : getString(stringId);
+        notificationBuilder.setContentTitle(appName);
+      }
+
       // Icon
       int resID = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
       if (resID != 0) {
