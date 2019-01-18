@@ -158,7 +158,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         notificationBuilder.setSmallIcon(resID);
       } else {
         Log.d(TAG, "Icon - resID: 0");
-        if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION.LOLLIPOP) {
+        if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.LOLLIPOP) {
           resID = getResources().getIdentifier("icon", "mipmap", getPackageName());
           Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
           if (resID != 0) {
