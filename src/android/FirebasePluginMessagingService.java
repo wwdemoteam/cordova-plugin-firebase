@@ -154,8 +154,10 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
       int resID = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
       if (resID != 0) {
+        Log.d(TAG, "Icon - resID: " + Integer.toString(resID));
         notificationBuilder.setSmallIcon(resID);
       } else {
+        Log.d(TAG, "Icon - resID: 0");
         notificationBuilder.setSmallIcon(getApplicationInfo().icon);
       }
 
