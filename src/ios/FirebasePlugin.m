@@ -33,7 +33,7 @@ static FirebasePlugin *firebasePlugin;
 }
 
 - (void)pluginInitialize {
-    NSLog(@"Starting Firebase plugin");
+    NSLog(@"FirebasePlugin - Starting Firebase plugin");
     firebasePlugin = self;
 }
 
@@ -181,7 +181,7 @@ static FirebasePlugin *firebasePlugin;
 - (void)unregister:(CDVInvokedUrlCommand *)command {
     [[FIRInstanceID instanceID] deleteIDWithHandler:^void(NSError *_Nullable error) {
         if (error) {
-            NSLog(@"Unable to delete instance");
+            NSLog(@"FirebasePlugin - Unable to delete instance");
         } else {
             NSString* currentToken = [[FIRInstanceID instanceID] token];
             if (currentToken != nil) {
@@ -319,7 +319,7 @@ static FirebasePlugin *firebasePlugin;
 - (void)logError:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString* errorMessage = [command.arguments objectAtIndex:0];
-        CLSNSLog(@"%@", errorMessage);
+        CLSNSLog(@"FirebasePlugin - %@", errorMessage);
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
