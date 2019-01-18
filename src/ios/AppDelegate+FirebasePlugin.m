@@ -60,7 +60,7 @@
     // [START set_messaging_delegate]
     [FIRMessaging messaging].delegate = self;
     // [END set_messaging_delegate]
-    [FIRMessaging messaging].shouldEstablishDirectChannel = true;
+    [FIRMessaging messaging].shouldEstablishDirectChannel = YES;
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
         [UNUserNotificationCenter currentNotificationCenter].delegate = self;
