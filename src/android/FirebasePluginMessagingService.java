@@ -154,7 +154,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         .setPriority(NotificationCompat.PRIORITY_MAX);
 
       // Title
-      if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
+      if (TextUtils.isEmpty(title) && android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
         int stringId = getApplicationInfo().labelRes;
         String appName = stringId == 0 ? getApplicationInfo().nonLocalizedLabel.toString() : getString(stringId);
         notificationBuilder.setContentTitle(appName);
