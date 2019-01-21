@@ -93,17 +93,16 @@ static FirebasePlugin *firebasePlugin;
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
             #pragma GCC diagnostic pop
         }
-
-		  CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-		  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-		  return;
+	CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	return;
     }
 
-	  #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-	    BOOL isIOS10 = TRUE;
-	  #else
-	    BOOL isIOS10 = FALSE;
-	  #endif
+    #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+      BOOL isIOS10 = TRUE;
+    #else
+      BOOL isIOS10 = FALSE;
+    #endif
 
     if ( !isIOS10 ) {
       [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -112,7 +111,7 @@ static FirebasePlugin *firebasePlugin;
       return;
     }
 
-	// IOS 10
+    // IOS 10
     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert|UNAuthorizationOptionSound|UNAuthorizationOptionBadge;
     [[UNUserNotificationCenter currentNotificationCenter]
       requestAuthorizationWithOptions:authOptions
@@ -120,6 +119,7 @@ static FirebasePlugin *firebasePlugin;
 
         if (![NSThread isMainThread]) {
           dispatch_sync(dispatch_get_main_queue(), ^{
+            NSLog(@"FirebasePlugin - GrantPermission - isMainThread: false - granted: %d", granted);
             [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
             [[FIRMessaging messaging] setDelegate:self];
             [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -128,6 +128,7 @@ static FirebasePlugin *firebasePlugin;
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
           });
         } else {
+	  NSLog(@"FirebasePlugin - GrantPermission - isMainThread: true - granted: %d", granted);
           [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
           [[FIRMessaging messaging] setDelegate:self];
           [[UIApplication sharedApplication] registerForRemoteNotifications];
