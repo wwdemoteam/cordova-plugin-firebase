@@ -103,6 +103,9 @@
     <config-file parent="aps-environment" target="*/Entitlements-Release.plist">
       <string>production</string>
     </config-file>
+    <config-file parent="FirebaseAppDelegateProxyEnabled" platform="ios" target="*-Info.plist">
+      <true />
+    </config-file>
 
     <resource-file src="GoogleService-Info.plist" target="./GoogleService-Info.plist" />
 
