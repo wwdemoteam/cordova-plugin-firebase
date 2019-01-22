@@ -59,10 +59,7 @@
 
     // [START set_messaging_delegate]
     [FIRMessaging messaging].delegate = self;
-    // [END set_messaging_delegate]
-  
-    [FIRMessaging messaging].shouldEstablishDirectChannel = YES;
-  
+    // [END set_messaging_delegate]  
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
         [UNUserNotificationCenter currentNotificationCenter].delegate = self;
@@ -100,8 +97,6 @@
 }
 
 - (void)connectToFcm {
-    [FIRMessaging messaging].shouldEstablishDirectChannel = YES;
-  
     [[FIRMessaging messaging] connectWithCompletion:^(NSError * _Nullable error) {
         if (error != nil) {
             NSLog(@"FirebasePlugin - Unable to connect to FCM. %@", error);

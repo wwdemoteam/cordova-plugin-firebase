@@ -128,7 +128,7 @@ static FirebasePlugin *firebasePlugin;
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
           });
         } else {
-	  NSLog(@"FirebasePlugin - GrantPermission - isMainThread: true - granted: %d", granted);
+	        NSLog(@"FirebasePlugin - GrantPermission - isMainThread: true - granted: %d", granted);
           [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
           [[FIRMessaging messaging] setDelegate:self];
           [[UIApplication sharedApplication] registerForRemoteNotifications];

@@ -11,13 +11,13 @@ var constants = {
 
 module.exports = function (context) {
   var defer = context.requireCordovaModule("q").defer();
-	
-	var platform = context.opts.plugin.platform;
-	var platformConfig = utils.getPlatformConfigs(platform);
-	if (!platformConfig) {
-		utils.handleError("Invalid platform", defer);
-	}
-	
+  
+  var platform = context.opts.plugin.platform;
+  var platformConfig = utils.getPlatformConfigs(platform);
+  if (!platformConfig) {
+    utils.handleError("Invalid platform", defer);
+  }
+  
   var wwwPath = utils.getResourcesFolderPath(context, platform, platformConfig);
   
   var soundZipFile = utils.getZipFile(wwwPath, constants.pushSound);
@@ -34,15 +34,15 @@ module.exports = function (context) {
   var files = utils.getFilesFromPath(targetPath);
   var soundFile = files.filter(x => path.basename(x) === platformConfig.soundFileName)[0];
 
-	if (!soundFile) {
-		console.log("No sound file found");
-		return defer.promise;
-	}
-	
-	var destFolder = platformConfig.getSoundDestinationFolder(context);
+  if (!soundFile) {
+    console.log("No sound file found");
+    return defer.promise;
+  }
+  
+  var destFolder = platformConfig.getSoundDestinationFolder(context);
   utils.createOrCheckIfFolderExists(destFolder);
-	
-	var sourceFilePath = path.join(targetPath, path.basename(soundFile))
+  
+  var sourceFilePath = path.join(targetPath, path.basename(soundFile))
   var destFilePath = path.join(destFolder, path.basename(soundFile));
   
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);

@@ -12,7 +12,7 @@ var constants = {
 
 module.exports = function (context) {
   var defer = context.requireCordovaModule("q").defer();
-	
+  
   var appId = utils.getAppId(context);
 
   var platform = context.opts.plugin.platform;
@@ -50,6 +50,6 @@ module.exports = function (context) {
   var destFilePath = path.join(context.opts.plugin.dir, fileName);
 
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
-			
+      
   return defer.promise;
 }

@@ -39,8 +39,8 @@ function getFilesFromPath(path) {
 
 function createOrCheckIfFolderExists(path) {
   if (!fs.existsSync(path)) {
-		fs.mkdirSync(path);
-	}
+    fs.mkdirSync(path);
+  }
 }
 
 function getResourcesFolderPath(context, platform, platformConfig) {
