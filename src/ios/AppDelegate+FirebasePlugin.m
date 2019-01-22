@@ -160,7 +160,7 @@
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
            
-    NSLog(@"FirebasePlugin - willPresentNotification:withCompletionHandler - 1")
+    NSLog(@"FirebasePlugin - willPresentNotification:withCompletionHandler - 1");
 
     [self.delegate userNotificationCenter:center
               willPresentNotification:notification
