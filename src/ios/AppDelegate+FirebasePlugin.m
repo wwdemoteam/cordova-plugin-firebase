@@ -161,6 +161,8 @@
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+           
+    NSLog(@"FirebasePlugin - willPresentNotification:withCompletionHandler - 1")
 
     [self.delegate userNotificationCenter:center
               willPresentNotification:notification
@@ -187,6 +189,7 @@
           withCompletionHandler:(void (^)(void))completionHandler
 {
     NSLog(@"FirebasePlugin - didReceiveNotificationResponse:withCompletionHandler - 1");
+            
     [self.delegate userNotificationCenter:center
        didReceiveNotificationResponse:response
                 withCompletionHandler:completionHandler];
