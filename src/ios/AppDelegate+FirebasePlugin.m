@@ -108,6 +108,11 @@
     }];
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [FIRMessaging messaging].APNSToken = deviceToken;
+    NSLog(@"FirebasePlugin - deviceToken1 = %@", deviceToken);
+}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSDictionary *mutableUserInfo = [userInfo mutableCopy];
 
@@ -149,6 +154,10 @@
     [FirebasePlugin.firebasePlugin sendNotification:remoteMessage.appData];
 }
 // [END ios_10_data_message]
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  NSLog(@"FirebasePlugin - Unable to register for remote notifications: %@", error);
+}
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
