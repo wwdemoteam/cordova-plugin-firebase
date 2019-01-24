@@ -1,12 +1,6 @@
 #import "AppDelegate+FirebasePlugin.h"
 #import "FirebasePlugin.h"
-@import Fabric;
-@import Crashlytics;
-@import FirebaseInstanceID;
 @import FirebaseMessaging;
-@import FirebaseAnalytics;
-@import FirebaseRemoteConfig;
-@import FirebaseAuth;
 #import <objc/runtime.h>
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
@@ -53,22 +47,21 @@
 - (BOOL)application:(UIApplication *)application swizzledDidFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self application:application swizzledDidFinishLaunchingWithOptions:launchOptions];
 
-    if(![FIRApp defaultApp]) {
-        [FIRApp configure];
-    }
+    [FIRApp configure];
 
     // [START set_messaging_delegate]
     [FIRMessaging messaging].delegate = self;
     // [END set_messaging_delegate]  
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
-        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 #endif
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:)
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
     
     self.applicationInBackground = @(YES);
+    [application registerForRemoteNotifications];
     
     return YES;
 }
