@@ -61,7 +61,7 @@
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
     
     self.applicationInBackground = @(YES);
-    [application registerForRemoteNotifications];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
     return YES;
 }
