@@ -51,6 +51,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application swizzledDidFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSLog(@"FirebasePlugin - Finished launching");
     [self application:application swizzledDidFinishLaunchingWithOptions:launchOptions];
 
     [FIRApp configure];
@@ -61,6 +62,7 @@
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     self.delegate = [UNUserNotificationCenter currentNotificationCenter].delegate;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    [FIRMessaging messaging].remoteMessageDelegate = self;
 #endif
 
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -69,7 +71,6 @@
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
     
     self.applicationInBackground = @(YES);
-    
     
     return YES;
 }
