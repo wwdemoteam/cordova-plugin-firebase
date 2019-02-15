@@ -82,21 +82,19 @@ static FirebasePlugin *firebasePlugin;
 
 - (void)grantPermission:(CDVInvokedUrlCommand *)command {
   if ([UNUserNotificationCenter class] != nil) {
-    // iOS 10 or later
-    // For iOS 10 display notification (sent via APNS)
+    // iOS 10 or higher
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
     [[UNUserNotificationCenter currentNotificationCenter]
         requestAuthorizationWithOptions:authOptions
         completionHandler:^(BOOL granted, NSError * _Nullable error) {
-          // ...
-          // [[FIRMessaging messaging] setDelegate:self]; ???
           [[UIApplication sharedApplication] registerForRemoteNotifications];
           CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: granted ? CDVCommandStatus_OK : CDVCommandStatus_ERROR];
           [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }];
   } else {
-    // iOS 10 notifications aren't available; fall back to iOS 8-9 notifications.
+    // iOS 10 notifications aren't available
+    // fall back to iOS 8-9 notifications
     UIUserNotificationType allNotificationTypes = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
@@ -106,69 +104,6 @@ static FirebasePlugin *firebasePlugin;
   }
 	return;
 }
-
-/*
-- (void)grantPermission:(CDVInvokedUrlCommand *)command {
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-        if ([[UIApplication sharedApplication]respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-            UIUserNotificationType notificationTypes = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
-            [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-            [[UIApplication sharedApplication] registerForRemoteNotifications];
-        } else {
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-            #pragma GCC diagnostic pop
-        }
-	CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-	return;
-    }
-
-    #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-      BOOL isIOS10 = TRUE;
-    #else
-      BOOL isIOS10 = FALSE;
-    #endif
-
-    if ( !isIOS10 ) {
-      [[UIApplication sharedApplication] registerForRemoteNotifications];
-      CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-      return;
-    }
-
-    // IOS 10
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert|UNAuthorizationOptionSound|UNAuthorizationOptionBadge;
-    [[UNUserNotificationCenter currentNotificationCenter]
-      requestAuthorizationWithOptions:authOptions
-      completionHandler:^(BOOL granted, NSError * _Nullable error) {
-
-        if (![NSThread isMainThread]) {
-          dispatch_sync(dispatch_get_main_queue(), ^{
-            NSLog(@"FirebasePlugin - GrantPermission - isMainThread: false - granted: %d", granted);
-            [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-            [[FIRMessaging messaging] setDelegate:self];
-            [[UIApplication sharedApplication] registerForRemoteNotifications];
-
-            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: granted ? CDVCommandStatus_OK : CDVCommandStatus_ERROR];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-          });
-        } else {
-	        NSLog(@"FirebasePlugin - GrantPermission - isMainThread: true - granted: %d", granted);
-          [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-          [[FIRMessaging messaging] setDelegate:self];
-          [[UIApplication sharedApplication] registerForRemoteNotifications];
-          CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        }
-      }
-    ];
-
-	return;
-}
-*/
 
 - (void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
     int number = [[command.arguments objectAtIndex:0] intValue];
