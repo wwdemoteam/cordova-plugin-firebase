@@ -86,12 +86,12 @@ static FirebasePlugin *firebasePlugin;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
     UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
     [[UNUserNotificationCenter currentNotificationCenter]
-        requestAuthorizationWithOptions:authOptions
-        completionHandler:^(BOOL granted, NSError * _Nullable error) {
-          [[UIApplication sharedApplication] registerForRemoteNotifications];
-          CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: granted ? CDVCommandStatus_OK : CDVCommandStatus_ERROR];
-          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        }];
+      requestAuthorizationWithOptions:authOptions
+      completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: granted ? CDVCommandStatus_OK : CDVCommandStatus_ERROR];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
   } else {
     // iOS 10 notifications aren't available
     // fall back to iOS 8-9 notifications
@@ -102,7 +102,7 @@ static FirebasePlugin *firebasePlugin;
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }
-	return;
+  return;
 }
 
 - (void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
