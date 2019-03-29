@@ -115,7 +115,7 @@
     <framework src="Crashlytics" type="podspec" spec="~> 3.12" />
     <framework src="FirebaseAnalytics" type="podspec" spec="~> 5.8" />
     <framework src="FirebaseMessaging" type="podspec" spec="~> 3.4" />
-    <framework src="FirebaseAuth" type="podspec" spec="~> 5.4.1" />
+    <framework src="FirebaseAuth" type="podspec" spec="~> 4.6.1" />
     <framework src="FirebaseRemoteConfig" type="podspec" spec="~> 3.1" />
     <framework src="FirebasePerformance" type="podspec" spec="~> 2.2.4" />
   </platform>
