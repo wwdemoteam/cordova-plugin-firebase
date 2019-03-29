@@ -756,33 +756,6 @@ public class FirebasePlugin extends CordovaPlugin {
   // 
   // Crashlytics
   //
-  /*
-  private void forceCrashlytics(final CallbackContext callbackContext) {
-    Log.d(TAG, "forceCrashlytics called");
-    final FirebasePlugin self = this;
-    cordova.getThreadPool().execute(new Runnable() {
-      public void run() {
-        JSONObject testJSON = new JSONObject();
-        try {
-          Log.e(TAG, "Crash will be forced");
-          logEvent(callbackContext, "Crash_forced_try", testJSON);
-          Crashlytics.getInstance().crash();
-          callbackContext.success();
-          Log.d(TAG, "forceCrashlytics success");
-        } catch (Exception e) {
-          Log.e(TAG, "Crash forced failed");
-          try {
-            logEvent(callbackContext, "Crash_forced_catched", testJSON);
-          } catch (JSONException f) {
-            Log.e(TAG, "JSONException catch");
-          }
-          Crashlytics.log(e.getMessage());
-          callbackContext.error(e.getMessage());
-        }
-      }
-    });
-  }
-  */
   private void forceCrashlytics(final CallbackContext callbackContext) {
     Log.d(TAG, "forceCrashlytics called");
     final FirebasePlugin self = this;
