@@ -756,6 +756,7 @@ public class FirebasePlugin extends CordovaPlugin {
   // 
   // Crashlytics
   //
+  /*
   private void forceCrashlytics(final CallbackContext callbackContext) {
     Log.d(TAG, "forceCrashlytics called");
     final FirebasePlugin self = this;
@@ -778,6 +779,16 @@ public class FirebasePlugin extends CordovaPlugin {
           Crashlytics.log(e.getMessage());
           callbackContext.error(e.getMessage());
         }
+      }
+    });
+  }
+  */
+  private void forceCrashlytics(final CallbackContext callbackContext) {
+    Log.d(TAG, "forceCrashlytics called");
+    final FirebasePlugin self = this;
+    cordova.getThreadPool().execute(new Runnable() {
+      public void run() {
+        Crashlytics.getInstance().crash();
       }
     });
   }
