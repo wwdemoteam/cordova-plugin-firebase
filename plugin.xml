@@ -118,5 +118,6 @@
     <framework src="FirebaseAuth" type="podspec" spec="~> 4.6.1" />
     <framework src="FirebaseRemoteConfig" type="podspec" spec="~> 2.1.3" />
     <framework src="FirebasePerformance" type="podspec" spec="~> 1.1.3" />
+    <framework src="FirebaseInstanceID" type="podspec" spec="~> 3.6" />
   </platform>
 </plugin>
