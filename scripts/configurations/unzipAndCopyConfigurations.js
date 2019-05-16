@@ -10,8 +10,14 @@ var constants = {
   folderNamePrefix: "firebase."
 };
 
-module.exports = function (context) {
-  var defer = context.requireCordovaModule("q").defer();
+module.exports = function(context) {
+  var cordovaAboveNine = utils.isCordovaVersionAboveNine(context);
+  var defer;
+  if (cordovaAboveNine) {
+    defer = require('q').defer();
+  } else {
+    defer = context.requireCordovaModule("q").defer();
+  }
   
   var appId = utils.getAppId(context);
 
@@ -22,7 +28,13 @@ module.exports = function (context) {
   }
 
   var wwwPath = utils.getResourcesFolderPath(context, platform, platformConfig);
-  var sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
+  var sourceFolderPath;
+
+  if (cordovaAboveNine) {
+    sourceFolderPath = path.join(context.opts.projectRoot, "www", constants.folderNamePrefix + appId);
+  } else {
+    sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
+  }
 
   var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.googleServices);
   if (!googleServicesZipFile) {
@@ -50,6 +62,11 @@ module.exports = function (context) {
   var destFilePath = path.join(context.opts.plugin.dir, fileName);
 
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+
+  if (cordovaAboveNine) {
+    var destFilePath = path.join(context.opts.projectRoot, "platforms", platform, "app", fileName);
+    utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+  }
       
   return defer.promise;
 }

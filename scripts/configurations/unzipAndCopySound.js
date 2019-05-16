@@ -9,8 +9,14 @@ var constants = {
   pushSound: "push_sound"
 };
 
-module.exports = function (context) {
-  var defer = context.requireCordovaModule("q").defer();
+module.exports = function(context) {
+  var cordovaAboveNine = utils.isCordovaVersionAboveNine(context);
+  var defer;
+  if (cordovaAboveNine) {
+    defer = require('q').defer();
+  } else {
+    defer = context.requireCordovaModule("q").defer();
+  }
   
   var platform = context.opts.plugin.platform;
   var platformConfig = utils.getPlatformConfigs(platform);

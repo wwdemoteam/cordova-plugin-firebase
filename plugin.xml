@@ -77,7 +77,7 @@
     <source-file src="src/android/colors.xml" target-dir="res/values" />
 
     <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
-    <framework src="com.google.gms:google-services:4.0.1" />
+    <framework src="com.google.gms:google-services:4.2.0" />
     <framework src="com.google.firebase:firebase-core:16.0.4" />
     <framework src="com.google.firebase:firebase-messaging:17.3.4" />
     <framework src="com.google.firebase:firebase-config:16.1.0" />
