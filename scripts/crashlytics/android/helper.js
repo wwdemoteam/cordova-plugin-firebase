@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+var utils = require("../../configurations/utilities");
 
 function rootBuildGradleExists() {
   var target = path.join("platforms", "android", "build.gradle");
@@ -17,14 +18,23 @@ function readRootBuildGradle() {
 /*
  * Added a dependency on 'com.google.gms' based on the position of the know 'com.android.tools.build' dependency in the build.gradle
  */
-function addDependencies(buildGradle) {
+function addDependencies(buildGradle, context) {
   // find the known line to match
   var match = buildGradle.match(/^(\s*)classpath 'com.android.tools.build(.*)/m);
   var whitespace = match[1];
   
   // modify the line to add the necessary dependencies
-  var googlePlayDependency = whitespace + 'classpath \'com.google.gms:google-services:4.2.0\' // google-services dependency from cordova-plugin-firebase';
-  var fabricDependency = whitespace + 'classpath \'io.fabric.tools:gradle:1.29.0\' // fabric dependency from cordova-plugin-firebase'
+  var cordovaAboveNine = utils.isCordovaVersionAboveNine(context);
+  var googlePlayDependency;
+  var fabricDependency;
+  if (cordovaAboveNine) {
+    googlePlayDependency = whitespace + 'classpath \'com.google.gms:google-services:4.2.0\' // google-services dependency from cordova-plugin-firebase';
+    fabricDependency = whitespace + 'classpath \'io.fabric.tools:gradle:1.29.0\' // fabric dependency from cordova-plugin-firebase'
+  } else {
+    googlePlayDependency = whitespace + 'classpath \'com.google.gms:google-services:4.1.0\' // google-services dependency from cordova-plugin-firebase';
+    fabricDependency = whitespace + 'classpath \'io.fabric.tools:gradle:1.25.4\' // fabric dependency from cordova-plugin-firebase'
+  }
+  
   var modifiedLine = match[0] + '\n' + googlePlayDependency + '\n' + fabricDependency;
   
   // modify the actual line
@@ -85,7 +95,7 @@ function writeRootBuildGradle(contents) {
 
 module.exports = {
 
-  modifyRootBuildGradle: function() {
+  modifyRootBuildGradle: function(context) {
     // be defensive and don't crash if the file doesn't exist
     if (!rootBuildGradleExists) {
       return;
@@ -94,7 +104,7 @@ module.exports = {
     var buildGradle = readRootBuildGradle();
 
     // Add Google Play Services Dependency
-    buildGradle = addDependencies(buildGradle);
+    buildGradle = addDependencies(buildGradle, context);
   
     // Add Google's Maven Repo
     buildGradle = addRepos(buildGradle);
