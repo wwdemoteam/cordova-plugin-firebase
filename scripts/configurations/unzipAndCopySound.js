@@ -10,9 +10,9 @@ var constants = {
 };
 
 module.exports = function(context) {
-  var cordovaAboveNine = utils.isCordovaVersionAboveNine(context);
+  var newCordova = utils.isNewCordova(context);
   var defer;
-  if (cordovaAboveNine) {
+  if (newCordova) {
     defer = require('q').defer();
   } else {
     defer = context.requireCordovaModule("q").defer();

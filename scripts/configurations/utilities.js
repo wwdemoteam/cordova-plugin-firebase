@@ -28,10 +28,10 @@ var constants = {
   zipExtension: ".zip"
 };
 
-function isCordovaVersionAboveNine(context) {
+function isNewCordova(context) {
 	var cordovaVersion = context.opts.cordova.version;
 	var sp = cordovaVersion.split('.');
-	return parseInt(sp[0]) >= 9;
+	return parseInt(sp[0]) >= 8;
 }
 
 function handleError(errorMessage, defer) {
@@ -80,9 +80,9 @@ function getZipFile(folder, zipFileName) {
 }
 
 function getAppId(context) {
-  var cordovaAboveNine = isCordovaVersionAboveNine(context);
+  var newCordova = isNewCordova(context);
   var et;
-  if (cordovaAboveNine) {
+  if (newCordova) {
     et = require('elementtree');
   } else {
     et = context.requireCordovaModule('elementtree');
@@ -106,7 +106,7 @@ function copyFromSourceToDestPath(defer, sourcePath, destPath) {
 }
 
 module.exports = {
-  isCordovaVersionAboveNine,
+  isNewCordova,
   handleError,
   getZipFile,
   getResourcesFolderPath,
