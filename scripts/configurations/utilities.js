@@ -29,9 +29,10 @@ var constants = {
 };
 
 function isNewCordova(context) {
-	var cordovaVersion = context.opts.cordova.version;
-	var sp = cordovaVersion.split('.');
-	return parseInt(sp[0]) >= 8;
+  var cordovaVersion = context.opts.cordova.version;
+  console.log(cordovaVersion);
+  var sp = cordovaVersion.split('.');
+  return parseInt(sp[0]) >= 8;
 }
 
 function handleError(errorMessage, defer) {
