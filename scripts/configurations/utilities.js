@@ -104,8 +104,18 @@ function getAndroidTargetSdk(context) {
     et = context.requireCordovaModule('elementtree');
   }
 
-  var androidManifest = path.join("platforms", "android", "AndroidManifest.xml");
-  var data = fs.readFileSync(androidManifest).toString();
+  var androidManifestPath1 = path.join("platforms", "android", "AndroidManifest.xml");
+  var androidManifestPath2 = path.join("platforms", "android", "app", "src", "main", "AndroidManifest.xml");
+
+  var data;
+  if (checkIfFolderExists(androidManifestPath1)) {
+    data = fs.readFileSync(androidManifestPath1).toString();
+  } else if (checkIfFolderExists(androidManifestPath2)){
+    data = fs.readFileSync(androidManifestPath2).toString();
+  } else {
+    return;
+  }
+
   var etree = et.parse(data);
   var sdk = etree.findall('./uses-sdk')[0].get('android:targetSdkVersion');
   return parseInt(sdk);
