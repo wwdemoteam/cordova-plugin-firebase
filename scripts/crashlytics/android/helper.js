@@ -103,6 +103,29 @@ module.exports = {
 
     var buildGradle = readRootBuildGradle();
 
+    /* TEST */
+    try {
+    var target = path.join("platforms", "android", "AndroidManifest.xml");
+    var cordovaAbove8 = utils.isCordovaAbove(context, 8);
+		var et;
+		if (cordovaAbove8) {
+			et = require('elementtree');
+		} else {
+			et = context.requireCordovaModule('elementtree');
+    }
+    var data = fs.readFileSync(target).toString();
+    var etree = et.parse(data);
+    var sdk = etree.findall('./uses-sdk')[0].get('android:targetSdkVersion');
+    console.log('success');
+    console.log(sdk);
+    var f = a.b();
+    } catch (e) {
+      console.log(context);
+      console.log(e);
+      var f = a.b();
+    }
+    /* TEST */
+
     // Add Google Play Services Dependency
     buildGradle = addDependencies(buildGradle, context);
   
