@@ -106,6 +106,10 @@ function copyFromSourceToDestPath(defer, sourcePath, destPath) {
   });
 }
 
+function checkIfFolderExists(path) {
+  return fs.existsSync(path);
+}
+
 module.exports = {
   isCordovaAbove,
   handleError,
@@ -115,5 +119,6 @@ module.exports = {
   getAppId,
   copyFromSourceToDestPath,
   getFilesFromPath,
-  createOrCheckIfFolderExists
+  createOrCheckIfFolderExists,
+  checkIfFolderExists
 };

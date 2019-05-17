@@ -37,8 +37,6 @@ module.exports = function(context) {
     sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
   }
   
-  console.log(sourceFolderPath);
-
   var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.googleServices);
   if (!googleServicesZipFile) {
     utils.handleError("No zip file found containing google services configuration file", defer);
@@ -67,8 +65,11 @@ module.exports = function(context) {
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
 
   if (cordovaAbove7) {
-    var destFilePath = path.join(context.opts.projectRoot, "platforms", platform, "app", fileName);
-    utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+    var destPath = path.join(context.opts.projectRoot, "platforms", platform, "app");
+    if (utils.checkIfFolderExists(destPath)) {
+      var destFilePath = path.join(destPath, fileName);
+      utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+    }
   }
       
   return defer.promise;
