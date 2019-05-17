@@ -24,10 +24,10 @@ function addDependencies(buildGradle, context) {
   var whitespace = match[1];
   
   // modify the line to add the necessary dependencies
-  var cordovaAbove7 = utils.isCordovaAbove(context, 7);
+  var sdk = utils.getAndroidTargetSdk(context);
   var googlePlayDependency;
   var fabricDependency;
-  if (cordovaAbove7) {
+  if (sdk >= 28) {
     googlePlayDependency = whitespace + 'classpath \'com.google.gms:google-services:4.2.0\' // google-services dependency from cordova-plugin-firebase';
     fabricDependency = whitespace + 'classpath \'io.fabric.tools:gradle:1.29.0\' // fabric dependency from cordova-plugin-firebase'
   } else {
@@ -102,29 +102,6 @@ module.exports = {
     }
 
     var buildGradle = readRootBuildGradle();
-
-    /* TEST */
-    try {
-    var target = path.join("platforms", "android", "AndroidManifest.xml");
-    var cordovaAbove8 = utils.isCordovaAbove(context, 8);
-		var et;
-		if (cordovaAbove8) {
-			et = require('elementtree');
-		} else {
-			et = context.requireCordovaModule('elementtree');
-    }
-    var data = fs.readFileSync(target).toString();
-    var etree = et.parse(data);
-    var sdk = etree.findall('./uses-sdk')[0].get('android:targetSdkVersion');
-    console.log('success');
-    console.log(sdk);
-    var f = a.b();
-    } catch (e) {
-      console.log(context);
-      console.log(e);
-      var f = a.b();
-    }
-    /* TEST */
 
     // Add Google Play Services Dependency
     buildGradle = addDependencies(buildGradle, context);

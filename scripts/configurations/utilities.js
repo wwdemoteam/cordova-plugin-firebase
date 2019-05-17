@@ -28,13 +28,6 @@ var constants = {
   zipExtension: ".zip"
 };
 
-function isCordovaAbove(context, version) {
-  var cordovaVersion = context.opts.cordova.version;
-  console.log(cordovaVersion);
-  var sp = cordovaVersion.split('.');
-  return parseInt(sp[0]) >= version;
-}
-
 function handleError(errorMessage, defer) {
   console.log(errorMessage);
   defer.reject();
@@ -95,6 +88,29 @@ function getAppId(context) {
   return etree.getroot().attrib.id;
 }
 
+function isCordovaAbove(context, version) {
+  var cordovaVersion = context.opts.cordova.version;
+  console.log(cordovaVersion);
+  var sp = cordovaVersion.split('.');
+  return parseInt(sp[0]) >= version;
+}
+
+function getAndroidTargetSdk(context) {
+  var cordovaAbove8 = isCordovaAbove(context, 8);
+  var et;
+  if (cordovaAbove8) {
+    et = require('elementtree');
+  } else {
+    et = context.requireCordovaModule('elementtree');
+  }
+
+  var androidManifest = path.join("platforms", "android", "AndroidManifest.xml");
+  var data = fs.readFileSync(androidManifest).toString();
+  var etree = et.parse(data);
+  var sdk = etree.findall('./uses-sdk')[0].get('android:targetSdkVersion');
+  return parseInt(sdk);
+}
+
 function copyFromSourceToDestPath(defer, sourcePath, destPath) {
   fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath))
   .on("close", function (err) {
@@ -120,5 +136,6 @@ module.exports = {
   copyFromSourceToDestPath,
   getFilesFromPath,
   createOrCheckIfFolderExists,
-  checkIfFolderExists
+  checkIfFolderExists,
+  getAndroidTargetSdk
 };
