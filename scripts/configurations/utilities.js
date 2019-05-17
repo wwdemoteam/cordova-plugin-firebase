@@ -91,12 +91,6 @@ function getAppId(context) {
 
   var config_xml = path.join(context.opts.projectRoot, 'config.xml');
   var data = fs.readFileSync(config_xml).toString();
-
-  console.log(data);
-  var b = require('../utilities');
-  b.getAppName(context);
-  var a = ff.qq();
-
   var etree = et.parse(data);
   return etree.getroot().attrib.id;
 }
