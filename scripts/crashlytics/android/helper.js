@@ -24,10 +24,10 @@ function addDependencies(buildGradle, context) {
   var whitespace = match[1];
   
   // modify the line to add the necessary dependencies
-  var cordovaAbove8 = utils.isCordovaAbove(context, 8);
+  var cordovaAbove7 = utils.isCordovaAbove(context, 7);
   var googlePlayDependency;
   var fabricDependency;
-  if (cordovaAbove8) {
+  if (cordovaAbove7) {
     googlePlayDependency = whitespace + 'classpath \'com.google.gms:google-services:4.2.0\' // google-services dependency from cordova-plugin-firebase';
     fabricDependency = whitespace + 'classpath \'io.fabric.tools:gradle:1.29.0\' // fabric dependency from cordova-plugin-firebase'
   } else {

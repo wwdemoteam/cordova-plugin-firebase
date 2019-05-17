@@ -66,7 +66,7 @@ module.exports = function(context) {
 
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
 
-  if (cordovaAbove8) {
+  if (cordovaAbove7) {
     var destFilePath = path.join(context.opts.projectRoot, "platforms", platform, "app", fileName);
     utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
   }
