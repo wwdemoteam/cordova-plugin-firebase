@@ -1,11 +1,11 @@
 var utils = require('./utilities');
 
 module.exports = function (context) {
-  var newCordova = utils.isNewCordova(context);
+  var cordovaAbove8 = utils.isCordovaAbove(context, 8);
   var child_process;
   var deferral;
   
-  if (newCordova) {
+  if (cordovaAbove8) {
     child_process = require('child_process');
     deferral = require('q').defer();
   } else {
