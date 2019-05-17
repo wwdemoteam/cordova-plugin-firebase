@@ -11,9 +11,10 @@ var constants = {
 };
 
 module.exports = function(context) {
-  var newCordova = utils.isNewCordova(context);
+  var cordovaAbove8 = utils.isCordovaAbove(context, 8);
+  var cordovaAbove7 = utils.isCordovaAbove(context, 7);
   var defer;
-  if (newCordova) {
+  if (cordovaAbove8) {
     defer = require('q').defer();
   } else {
     defer = context.requireCordovaModule("q").defer();
@@ -30,7 +31,7 @@ module.exports = function(context) {
   var wwwPath = utils.getResourcesFolderPath(context, platform, platformConfig);
   var sourceFolderPath;
 
-  if (newCordova) {
+  if (cordovaAbove7) {
     sourceFolderPath = path.join(context.opts.projectRoot, "www", constants.folderNamePrefix + appId);
   } else {
     sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
@@ -65,7 +66,7 @@ module.exports = function(context) {
 
   utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
 
-  if (newCordova) {
+  if (cordovaAbove8) {
     var destFilePath = path.join(context.opts.projectRoot, "platforms", platform, "app", fileName);
     utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
   }
