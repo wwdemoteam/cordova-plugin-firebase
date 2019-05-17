@@ -24,7 +24,7 @@ function addDependencies(buildGradle, context) {
   var whitespace = match[1];
   
   // modify the line to add the necessary dependencies
-  var cordovaAbove8 = utils.cordovaAbove8(context, 8);
+  var cordovaAbove8 = utils.isCordovaAbove(context, 8);
   var googlePlayDependency;
   var fabricDependency;
   if (cordovaAbove8) {
