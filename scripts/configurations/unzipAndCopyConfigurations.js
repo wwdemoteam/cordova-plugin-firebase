@@ -35,6 +35,8 @@ module.exports = function(context) {
   } else {
     sourceFolderPath = path.join(wwwPath, constants.folderNamePrefix + appId);
   }
+  
+  console.log(sourceFolderPath);
 
   var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.googleServices);
   if (!googleServicesZipFile) {
