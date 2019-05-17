@@ -19,6 +19,11 @@ module.exports = function(context) {
   } else {
     defer = context.requireCordovaModule("q").defer();
   }
+
+  console.log(context);
+  console.log(context.cmdLine);
+  console.log(context.cmdLine.split('@')[1]);
+  var a = utils.ff.ff();
   
   var appId = utils.getAppId(context);
 
