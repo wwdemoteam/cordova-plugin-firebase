@@ -32,7 +32,7 @@ function isNewCordova(context) {
   var cordovaVersion = context.opts.cordova.version;
   console.log(cordovaVersion);
   var sp = cordovaVersion.split('.');
-  return parseInt(sp[0]) >= 8;
+  return parseInt(sp[0]) >= 7;
 }
 
 function handleError(errorMessage, defer) {
