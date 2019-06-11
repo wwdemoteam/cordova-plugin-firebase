@@ -49,9 +49,11 @@ exports.onTokenRefresh = function (success, error) {
   exec(success, error, PLUGIN_NAME, "onTokenRefresh", []);
 };
 
+/*
 exports.clearAllNotifications = function (success, error) {
   exec(success, error, PLUGIN_NAME, "clearAllNotifications", []);
 };
+*/
 
 //
 // Analytics
