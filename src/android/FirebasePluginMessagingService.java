@@ -208,7 +208,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
         int accentID = getResources().getIdentifier("accent", "color", getPackageName());
-        Log.d(TAG, "AccentId: " + accentID == null ? "" : accentID.toString());
+        Log.d(TAG, "AccentId: " + Integer.toString(accentID));
         notificationBuilder.setColor(getResources().getColor(accentID, null));
       }
 
