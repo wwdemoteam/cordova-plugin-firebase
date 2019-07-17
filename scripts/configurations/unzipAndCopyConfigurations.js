@@ -49,14 +49,14 @@ module.exports = function(context) {
 
   var files = utils.getFilesFromPath(targetPath);
   if (!files) {
-    utils.handleError("No directory found");
+    utils.handleError("No directory found", defer);
   }
 
   var fileName = files.find(function (name) {
     return name.endsWith(platformConfig.firebaseFileExtension);
   });
   if (!fileName) {
-    utils.handleError("No file found");
+    utils.handleError("No file found", defer);
   }
 
   var sourceFilePath = path.join(targetPath, fileName);
