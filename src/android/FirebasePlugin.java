@@ -804,10 +804,12 @@ public class FirebasePlugin extends CordovaPlugin {
   // Remote Configuration
   //
   private void activateFetched(final CallbackContext callbackContext) {
+    Log.d(TAG, "activateFetched called");
     cordova.getThreadPool().execute(new Runnable() {
       public void run() {
         try {
           final boolean activated = FirebaseRemoteConfig.getInstance().activateFetched();
+          Log.d(TAG, "activateFetched success. activated: " + String.valueOf(activated));
           callbackContext.success(String.valueOf(activated));
         } catch (Exception e) {
           Crashlytics.logException(e);
@@ -818,10 +820,12 @@ public class FirebasePlugin extends CordovaPlugin {
   }
 
   private void fetch(CallbackContext callbackContext) {
+    Log.d(TAG, "fetch called");
     fetch(callbackContext, FirebaseRemoteConfig.getInstance().fetch());
   }
 
   private void fetch(CallbackContext callbackContext, long cacheExpirationSeconds) {
+    Log.d(TAG, "fetch called. cacheExpirationSeconds: " + String.valueOf(cacheExpirationSeconds));
     fetch(callbackContext, FirebaseRemoteConfig.getInstance().fetch(cacheExpirationSeconds));
   }
 
@@ -832,11 +836,13 @@ public class FirebasePlugin extends CordovaPlugin {
           task.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void data) {
+              Log.d(TAG, "fetch success");
               callbackContext.success();
             }
           }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
+              Log.d(TAG, "fetch error. error: " + e.getMessage());
               callbackContext.error(e.getMessage());
             }
           });
@@ -867,11 +873,13 @@ public class FirebasePlugin extends CordovaPlugin {
   }
 
   private void getValue(final CallbackContext callbackContext, final String key, final String namespace) {
+    Log.d(TAG, "getValue called. key: " + key + ". namespace: " + namespace);
     cordova.getThreadPool().execute(new Runnable() {
       public void run() {
         try {
           FirebaseRemoteConfigValue value = namespace == null ? FirebaseRemoteConfig.getInstance().getValue(key)
               : FirebaseRemoteConfig.getInstance().getValue(key, namespace);
+          Log.d(TAG, "getValue success. value: " + value.asString());
           callbackContext.success(value.asString());
         } catch (Exception e) {
           Crashlytics.logException(e);
