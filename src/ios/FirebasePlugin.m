@@ -166,9 +166,6 @@ static FirebasePlugin *firebasePlugin;
             [self sendNotification:userInfo];
         }
         [self.notificationStack removeAllObjects];
-    } else {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }
 }
 
